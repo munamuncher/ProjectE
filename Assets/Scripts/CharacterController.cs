@@ -43,7 +43,7 @@ public class CharacterController : MonoBehaviour
     }
 
 
-    void Update()
+    private void Update()
     {
         moveable?.Move();
     }

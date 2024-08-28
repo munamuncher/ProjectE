@@ -2,19 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour, IMoveable
+public class PlayerMovement : MonoBehaviour, IMoveable, ITarget
 {
     [SerializeField] private float speed = 3f;
 
-    public void Move() //todo follow nearest monster
+    public GameObject target { get; set; }
+
+    public void Move()
     {
-        float posX = Input.GetAxis("Horizontal");
-        float posY = Input.GetAxis("Vertical");
+        if (target == null)
+        {
+            Debug.Log("Nothing");
+            return;
+        }
 
-        Vector3 direction = new Vector3(posX, posY ,0 );
+        Vector3 direction = (target.transform.position - transform.position).normalized;
+        transform.position += direction * speed * Time.deltaTime;
+        transform.LookAt(target.transform.position);
 
-        transform.Translate(direction * speed * Time.deltaTime);
-
-
+        Debug.Log(target);
     }
 }
