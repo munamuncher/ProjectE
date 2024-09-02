@@ -10,7 +10,7 @@ public class TargetTracker : MonoBehaviour, ITarget
 
     public GameObject target { get; set; }
 
-    private void Start()
+    private void Awake()
     {
         UpdateEnemyList();
         FindClosestTarget();
@@ -50,7 +50,6 @@ public class TargetTracker : MonoBehaviour, ITarget
             }
         }                   
         target = nearTarget;
-        Debug.Log("current " + target);
     }
 }
 

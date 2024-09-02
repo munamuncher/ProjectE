@@ -34,5 +34,10 @@ public interface IManaConsumable
     bool HasEnoughMana();
 }
 
+public interface IAnimations
+{
+    void PlayMoveAnim();
+}
+
 
 
