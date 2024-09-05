@@ -10,8 +10,9 @@ public class CharacterController : MonoBehaviour
 
     private Rigidbody2D rgb;
     private CapsuleCollider2D ccd;
-    private IMoveable moveable;
 
+    private IMoveable moveable;
+    private IAnimations animations;
     private void Awake()
     {
        if(!TryGetComponent<Rigidbody2D>(out rgb))
@@ -40,11 +41,31 @@ public class CharacterController : MonoBehaviour
         {
             Debug.LogError("IMoveable 참조 실패");
         }
+        animations = GetComponent<IAnimations>();
+        if (animations == null)
+        {
+            Debug.LogError("IAnimations 참조 실패");
+        }
     }
 
+    private void PlayAnimation()
+    {
+        animations?.PlayMoveAnim("Move");
+        ((CharacterAnim)animations).playAnimation = false;
+    }
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.A)) // if character meets enemy call for idle and go stop
+        {
+            ((CharacterAnim)animations).playAnimation = true;
+            PlayAnimation();
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            ((CharacterAnim)animations).playAnimation = false;
+            PlayAnimation();
+        }
         moveable?.Move();
     }
 }

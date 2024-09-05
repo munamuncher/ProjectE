@@ -1,11 +1,14 @@
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterAnim : MonoBehaviour, IAnimations
 {
     SkeletonAnimation spine;
+
+    public bool playAnimation = false;
 
     private void Awake()
     {
@@ -15,22 +18,17 @@ public class CharacterAnim : MonoBehaviour, IAnimations
         }
     }
 
-    private void Update()
+    public void PlayMoveAnim(string animationName)
     {
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+        if (!playAnimation)
         {
-            PlayMoveAnim();
-            Debug.Log("pressed button");
+            spine.state.SetAnimation(0, animationName, true);
         }
-        if(Input.GetKeyDown(KeyCode.S))
+        else
         {
-            spine.state.SetAnimation(0, "Idle", true);
+            Debug.Log("animation name" + animationName);
+            Debug.Log("Animation is being played");
+            spine.state.SetAnimation(0, animationName, true);
         }
-    }
-
-    public void PlayMoveAnim()
-    {
-        Debug.Log("Animation is being played");
-        spine.state.SetAnimation(0, "Move", true);      
     }
 }

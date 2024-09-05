@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour, IMoveable
             else
             {
                 transform.localScale = new Vector3(-1, 1, 1);
-                transform.position = Vector3.MoveTowards(transform.position, target.transform.position - new Vector3(1f, 0.5f, 0f), speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, target.transform.position - new Vector3(-1f, 0.5f, 0f), speed * Time.deltaTime);
             }
         }
     }

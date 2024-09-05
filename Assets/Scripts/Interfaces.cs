@@ -36,7 +36,7 @@ public interface IManaConsumable
 
 public interface IAnimations
 {
-    void PlayMoveAnim();
+    void PlayMoveAnim(string animationName);
 }
 
 
