@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum PlayerState
+{
+    Player_Idle,
+    Player_Move,
+    Player_Attack,
+    Player_UseSkill
+}
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-
-public class CharacterController : MonoBehaviour
+public class CharacterControllers : MonoBehaviour
 {
 
     private Rigidbody2D rgb;
     private CapsuleCollider2D ccd;
 
     private IMoveable moveable;
+    private ITarget target;
     private IAnimations animations;
+    private PlayerState currentState = PlayerState.Player_Idle;
+
     private void Awake()
     {
        if(!TryGetComponent<Rigidbody2D>(out rgb))
@@ -47,25 +56,36 @@ public class CharacterController : MonoBehaviour
             Debug.LogError("IAnimations 참조 실패");
         }
     }
-
-    private void PlayAnimation()
-    {
-        animations?.PlayMoveAnim("Move");
-        ((CharacterAnim)animations).playAnimation = false;
-    }
-
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A)) // if character meets enemy call for idle and go stop
+        if(moveable != null)
         {
-            ((CharacterAnim)animations).playAnimation = true;
-            PlayAnimation();
+            PlayerMove();
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        else
         {
-            ((CharacterAnim)animations).playAnimation = false;
-            PlayAnimation();
+            Debug.Log("Moveable 참조 실패");
         }
-        moveable?.Move();
+    }
+
+    private void PlayerMove()
+    {
+        moveable.Move();
+        if (currentState != PlayerState.Player_Move)
+        {
+            PlayerController(PlayerState.Player_Move);
+            currentState = PlayerState.Player_Move;
+        }
+    }
+
+    private void PlayerController(PlayerState playerState)
+    {
+        switch (playerState)
+        {
+            case PlayerState.Player_Move:
+                animations.PlayMoveAnim("Move");
+                break;
+        }
+
     }
 }

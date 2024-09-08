@@ -5,14 +5,15 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour, IMoveable
 {
     [SerializeField] private float speed = 3f;
-    private TargetTracker tracker;
+    private ITarget tracker;
     private GameObject target;
 
     private void Awake()
     {
-       if(!TryGetComponent<TargetTracker>(out tracker))
+        tracker = GetComponent<ITarget>();
+        if(tracker == null)
         {
-            Debug.LogError("TargetTracker.cs  참조 실패 - playerMovement.cs - Awake()");
+            Debug.Log("tracker is null");
         }
     }
 
@@ -21,7 +22,7 @@ public class PlayerMovement : MonoBehaviour, IMoveable
         if (tracker != null && tracker.target != null)
         {
 
-            target = tracker?.target;
+            target = tracker.target;
         }
     }
 
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour, IMoveable
     {
         if (target != null)
         {
+            speed = 3f;
             Vector3 direction = target.transform.position - transform.position;
             if (direction.x > 0)
             {

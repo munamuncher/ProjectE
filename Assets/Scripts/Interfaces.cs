@@ -4,9 +4,13 @@ using UnityEngine;
 
 public interface ITarget
 {
-    public GameObject target { get; set; }
+    GameObject target { get; set; }
 }
 
+public interface IRaycastTarget
+{
+    void LockTarget(); 
+}
 public interface IMoveable
 {
     void Move();
@@ -14,7 +18,7 @@ public interface IMoveable
 
 public interface IDamageable
 {
-    void Damage();
+    void Damage(int DamageAmount);
 }
 
 public interface ICastable
