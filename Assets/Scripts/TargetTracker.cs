@@ -23,6 +23,7 @@ public class TargetTracker : MonoBehaviour, ITarget
             UpdateEnemyList();
             FindClosestTarget();
         }
+       
     }
 
     private void UpdateEnemyList()
@@ -40,7 +41,6 @@ public class TargetTracker : MonoBehaviour, ITarget
             if (obj != null) 
             {
                 float distance = Vector3.Distance(this.transform.position, obj.transform.position);
-
                 if (distance < nearestDistance)
                 {
                     nearTarget = obj;
@@ -51,5 +51,7 @@ public class TargetTracker : MonoBehaviour, ITarget
         }                   
         target = nearTarget;
     }
+
+
 }
 

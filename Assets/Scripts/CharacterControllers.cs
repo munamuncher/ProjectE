@@ -85,7 +85,18 @@ public class CharacterControllers : MonoBehaviour
             case PlayerState.Player_Move:
                 animations.PlayMoveAnim("Move");
                 break;
+            case PlayerState.Player_Idle:
+                animations.PlayMoveAnim("Idle");
+                break;
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Debug.Log("collision");
+        }
     }
 }
