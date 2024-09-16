@@ -70,7 +70,7 @@ public class CharacterControllers : MonoBehaviour
     }
     private void Update()
     {
-          moveable.Move();
+
     }
 
     private void PlayerMove()
@@ -108,7 +108,7 @@ public class CharacterControllers : MonoBehaviour
             moveable.Move();
             Debug.Log("being called");
         }
-       yield return new WaitForSeconds(1f);
+        yield break;
     }
 
 
