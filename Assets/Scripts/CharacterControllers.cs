@@ -56,47 +56,67 @@ public class CharacterControllers : MonoBehaviour
             Debug.LogError("IAnimations 참조 실패");
         }
     }
-    private void Update()
+
+    private void Start()
     {
-        if(moveable != null)
+        if (moveable != null)
         {
-            PlayerMove();
+            PlayerController(PlayerState.Player_Move);
         }
         else
         {
             Debug.Log("Moveable 참조 실패");
         }
     }
+    private void Update()
+    {
+          moveable.Move();
+    }
 
     private void PlayerMove()
     {
-        moveable.Move();
-        if (currentState != PlayerState.Player_Move)
-        {
-            PlayerController(PlayerState.Player_Move);
-            currentState = PlayerState.Player_Move;
-        }
+
+        Debug.Log("Playermove is being called");
+        //if (currentState == PlayerState.Player_Move)
+        //{
+        //    PlayerController(PlayerState.Player_Move);
+        //}
     }
 
     private void PlayerController(PlayerState playerState)
     {
+        currentState = playerState;
         switch (playerState)
         {
             case PlayerState.Player_Move:
                 animations.PlayMoveAnim("Move");
+                StartCoroutine(StartMoving());
                 break;
             case PlayerState.Player_Idle:
+                StopCoroutine(StartMoving());
                 animations.PlayMoveAnim("Idle");
                 break;
         }
 
     }
 
+    private IEnumerator StartMoving()
+    {
+        if(true)
+        {
+            PlayerMove();
+            moveable.Move();
+            Debug.Log("being called");
+        }
+       yield return new WaitForSeconds(1f);
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            Debug.Log("collision");
+            PlayerController(PlayerState.Player_Idle);
         }
     }
 }
