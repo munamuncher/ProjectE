@@ -4,29 +4,32 @@ using UnityEngine;
 
 public abstract class Skill : ICastable, ICooldownable, IManaConsumable
 {
+    public SkillData skillData;
     public float mana { get; set; }
-
-    public float coolDown { get; protected set; }
-    public float manaCost { get; protected set; }
-
-    private bool isOnCooldown;
+    private float manaCost;
     private float cooldownTimer;
+    private bool isOnCooldown;
 
-    public void Cast()
+    public void ReciveData(int id)
     {
-       if(HasEnoughMana())
+        manaCost = skillData.skillDataDictionary[id].mana;
+        cooldownTimer = skillData.skillDataDictionary[id].coolDown;
+        Debug.Log(manaCost);
+        Debug.Log(cooldownTimer);
+        if (HasEnoughMana())
         {
             UseSkill();
             UseMana();
             StartCooldown();
+            Debug.Log("casting");
         }
     }
 
-    protected abstract void UseSkill();
+    public abstract void UseSkill();
 
     public bool HasEnoughMana()
     {
-        if(mana > manaCost)
+        if(mana >= manaCost)
         {
             return true;
         }
@@ -36,14 +39,23 @@ public abstract class Skill : ICastable, ICooldownable, IManaConsumable
         }
     }
 
-    public bool IsOnCooldown() // on cool down tell show text on cooldown , and make a cooldown effect
+    public bool IsOnCooldown() 
     {
-        throw new System.NotImplementedException();
+        return true;
     }
 
     public void StartCooldown() // cool down macanism
     {
-        throw new System.NotImplementedException();
+        if(!isOnCooldown)
+        {
+            isOnCooldown = true;
+            cooldownTimer =- Time.deltaTime;
+            
+            if(cooldownTimer <= 0)
+            {
+                isOnCooldown = false;
+            }
+        }
     }
 
     public void UseMana()

@@ -1146,6 +1146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2e3febbf24f2d4c97e6e19b0b04c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireBall:
+  - {fileID: 1021245530909117595, guid: 232804ced4f3a51448f4055aed90e2c6, type: 3}
 --- !u!50 &2057019293
 Rigidbody2D:
   serializedVersion: 4
@@ -1233,7 +1235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e26bd7354f4d74fb8188cf8a6f8bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allObjects: []
+  allObjects:
+  - {fileID: 0}
   nearTarget: {fileID: 0}
 --- !u!114 &2057019301
 MonoBehaviour:

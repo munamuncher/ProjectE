@@ -23,7 +23,7 @@ public interface IDamageable
 
 public interface ICastable
 {
-    void Cast();
+    void ReciveData(int id);
 }
 
 public interface ICooldownable

@@ -14,17 +14,15 @@ public enum PlayerState
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class CharacterControllers : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject[] fireBall;
 
     private Rigidbody2D rgb;
     private CapsuleCollider2D ccd;
 
     private IMoveable moveable;
-    private ITarget target;
     private IAnimations animations;
-
     private PlayerState currentState = PlayerState.Player_Idle;
-
-
     private GameObject detectedTarget;
 
     private void Awake()
@@ -76,6 +74,22 @@ public class CharacterControllers : MonoBehaviour
         {
             Debug.Log("Moveable 참조 실패");
         }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            Fireball fireballInstance = new Fireball();
+            CastMagic(fireballInstance,10001);
+
+        }
+    }   
+
+    public void CastMagic(Skill skill,int id)
+    {
+        skill.UseSkill();
+        skill.ReciveData(id);
     }
 
     private void PlayerController(PlayerState playerState)

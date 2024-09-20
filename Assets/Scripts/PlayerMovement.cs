@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour, IMoveable
     [SerializeField] private float speed = 3f;
     private ITarget tracker;
     private GameObject target;
-    private float stopPos = 1.3f;
     private void Awake()
     {
         tracker = GetComponent<ITarget>();
