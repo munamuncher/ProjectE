@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public enum PlayerState
 {
     Player_Idle,
@@ -20,7 +21,11 @@ public class CharacterControllers : MonoBehaviour
     private IMoveable moveable;
     private ITarget target;
     private IAnimations animations;
+
     private PlayerState currentState = PlayerState.Player_Idle;
+
+
+    private GameObject detectedTarget;
 
     private void Awake()
     {
@@ -50,6 +55,10 @@ public class CharacterControllers : MonoBehaviour
         {
             Debug.LogError("IMoveable 참조 실패");
         }
+        else
+        {
+            moveable.Move();
+        }
         animations = GetComponent<IAnimations>();
         if (animations == null)
         {
@@ -67,20 +76,6 @@ public class CharacterControllers : MonoBehaviour
         {
             Debug.Log("Moveable 참조 실패");
         }
-    }
-    private void Update()
-    {
-
-    }
-
-    private void PlayerMove()
-    {
-
-        Debug.Log("Playermove is being called");
-        //if (currentState == PlayerState.Player_Move)
-        //{
-        //    PlayerController(PlayerState.Player_Move);
-        //}
     }
 
     private void PlayerController(PlayerState playerState)
@@ -102,21 +97,32 @@ public class CharacterControllers : MonoBehaviour
 
     private IEnumerator StartMoving()
     {
-        if(true)
+        while (currentState == PlayerState.Player_Move)
         {
-            PlayerMove();
             moveable.Move();
-            Debug.Log("being called");
+            Debug.Log("StartMoving coroutine is running");
+            yield return null; // Wait for the next frame before continuing
         }
-        yield break;
     }
 
-
+    #region Colliders
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
             PlayerController(PlayerState.Player_Idle);
+            detectedTarget = collision.gameObject;
         }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject == detectedTarget)
+        {
+            Debug.Log("Target lost: " + detectedTarget.name);
+            detectedTarget = null;
+            PlayerController(PlayerState.Player_Move);
+        }
+    }
+    #endregion
 }
