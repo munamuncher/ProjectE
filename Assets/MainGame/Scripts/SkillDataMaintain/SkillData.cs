@@ -5,12 +5,12 @@ using UnityEngine;
 [System.Serializable]
 public class SkillData : ScriptableObject
 {
-    [SerializeField]
-    private List<SkillDataStructure> skillDataList = new List<SkillDataStructure>(); // Ensure this is initialized
+
+    public List<SkillDataStructure> skillDataList = new List<SkillDataStructure>();
 
     public Dictionary<int, SkillDataStructure> skillDataDictionary;
 
-    private void OnEnable() // Fixed the spelling mistake
+    private void OnEnable()
     {
         InitializeSkillDictionary();
     }
@@ -43,8 +43,8 @@ public class SkillData : ScriptableObject
     {
         public int id;
         public string skillName;
-        public float mana;
-        public float coolDown;
+        public int mana;
+        public float coolDownTime;
         public string skillDescription;
     }
 

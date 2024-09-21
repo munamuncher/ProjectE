@@ -1146,8 +1146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2e3febbf24f2d4c97e6e19b0b04c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireBall:
-  - {fileID: 1021245530909117595, guid: 232804ced4f3a51448f4055aed90e2c6, type: 3}
 --- !u!50 &2057019293
 Rigidbody2D:
   serializedVersion: 4
@@ -1250,6 +1248,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a613a2781082e214a8bb03084c321db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2057019302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057019291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea640b1908f3c449bc66de90abf922e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill: {fileID: 11400000, guid: 5d0de9ac5e4c29b43af5f6272a87f0e0, type: 2}
+  <coolDownTime>k__BackingField: 0
+  <manaCost>k__BackingField: 0
 --- !u!1001 &2113237756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1344,6 +1357,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 165228, guid: 9d497845eef56ae439406f724d137364, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2057019301}
+    - targetCorrespondingSourceObject: {fileID: 165228, guid: 9d497845eef56ae439406f724d137364, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2057019302}
   m_SourcePrefab: {fileID: 100100000, guid: 9d497845eef56ae439406f724d137364, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

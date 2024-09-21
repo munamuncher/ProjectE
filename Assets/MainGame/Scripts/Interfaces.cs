@@ -7,10 +7,6 @@ public interface ITarget
     GameObject target { get; set; }
 }
 
-public interface IRaycastTarget
-{
-    void LockTarget(); 
-}
 public interface IMoveable
 {
     void Move();
@@ -21,21 +17,25 @@ public interface IDamageable
     void Damage(int DamageAmount);
 }
 
-public interface ICastable
-{
-    void ReciveData(int id);
+public interface ISendData
+{ 
+    void SendData(int val);
 }
 
 public interface ICooldownable
 {
-    void StartCooldown();
+    float coolDownTime { get; }
     bool IsOnCooldown();
+    void StartCooldown();
+    void UpdateCooldown();
 }
 
 public interface IManaConsumable
 {
-    void UseMana();
+    int mana { get; set; }
+    int manaCost { get; }
     bool HasEnoughMana();
+    void UseMana();
 }
 
 public interface IAnimations
