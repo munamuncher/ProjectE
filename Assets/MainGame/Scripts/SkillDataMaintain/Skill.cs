@@ -4,19 +4,13 @@ using UnityEngine;
 
 public abstract class Skill : IManaConsumable, ICooldownable
 {
-    protected SkillData.SkillDataStructure skillData;
-
     public int mana { get; set; }
     private float currentCooldownTime;
     private bool isOnCooldown;
 
-    protected Skill(SkillData.SkillDataStructure data)
-    {
-        skillData = data;
-    }
 
-    public int manaCost => skillData.mana;
-    public float coolDownTime => skillData.coolDownTime;
+    public int manaCost { get; set; }
+    public float coolDownTime { get; set; }
 
     public bool HasEnoughMana() => mana >= manaCost;
 
@@ -25,6 +19,7 @@ public abstract class Skill : IManaConsumable, ICooldownable
         if (HasEnoughMana())
         {
             mana -= manaCost;
+            Debug.Log(mana);
         }
     }
 
@@ -44,6 +39,7 @@ public abstract class Skill : IManaConsumable, ICooldownable
         if (isOnCooldown)
         {
             currentCooldownTime -= Time.deltaTime;
+            Debug.Log(currentCooldownTime);
             if (currentCooldownTime <= 0)
             {
                 isOnCooldown = false;

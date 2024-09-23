@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class Thunder : Skill
 {
-    public Thunder(SkillData.SkillDataStructure skillData) : base(skillData) { }
 
     public override void UseSkill()
     {
         if (HasEnoughMana() && !IsOnCooldown())
         {
-            Debug.Log($"{skillData.skillName} cast!");
+            Debug.Log("Casting thunder!");
             UseMana();
             StartCooldown();
-            // Logic for creating and using the fireball
+            // Logic for casting a Fireball
         }
         else
         {
-            Debug.Log("Not enough mana or skill is on cooldown!");
+            Debug.Log("Cannot cast thunder: not enough mana or skill is on cooldown.");
         }
     }
 }

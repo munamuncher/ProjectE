@@ -14,8 +14,6 @@ public enum PlayerState
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class CharacterControllers : MonoBehaviour
 {
-    [SerializeField]
-    private List<Skill> skillDatas = new List<Skill>();
 
     private Rigidbody2D rgb;
     private CapsuleCollider2D ccd;
@@ -80,7 +78,7 @@ public class CharacterControllers : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            skillDatas[1].UseSkill();
+
         }
     }
 
