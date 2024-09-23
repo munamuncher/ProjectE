@@ -12,7 +12,7 @@ public class Thunder : Skill
             Debug.Log("Casting thunder!");
             UseMana();
             StartCooldown();
-            // Logic for casting a Fireball
+
         }
         else
         {

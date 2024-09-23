@@ -12,7 +12,7 @@ public class FireBall : Skill
             Debug.Log("Casting Fireball!");
             UseMana();
             StartCooldown();
-            // Logic for casting a Fireball
+            // todo 스킬 능력 효과? 입력
         }
         else
         {
