@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: SkillDataStructureList
   m_EditorClassIdentifier: 
   skillDataList:
-  - id: 10001
+  - id: 0
     skillName: FireBall
     mana: 5
     coolDownTime: 5
     skillDescription: Fireball is being Shot
-  - id: 10002
+  - id: 1
     skillName: Thunder
     mana: 10
     coolDownTime: 10
