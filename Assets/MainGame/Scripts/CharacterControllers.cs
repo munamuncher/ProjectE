@@ -14,6 +14,9 @@ public enum PlayerState
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class CharacterControllers : MonoBehaviour
 {
+    [SerializeField]
+    private List<Skill> skillDatas = new List<Skill>();
+
     private Rigidbody2D rgb;
     private CapsuleCollider2D ccd;
 
@@ -24,11 +27,11 @@ public class CharacterControllers : MonoBehaviour
 
     private void Awake()
     {
-       if(!TryGetComponent<Rigidbody2D>(out rgb))
+        if (!TryGetComponent<Rigidbody2D>(out rgb))
         {
             Debug.LogError("Rigidbody2D 참조 실패");
         }
-       else
+        else
         {
             rgb.simulated = true;
             rgb.gravityScale = 0f;
@@ -41,7 +44,7 @@ public class CharacterControllers : MonoBehaviour
         {
             ccd.isTrigger = true;
             ccd.enabled = true;
-            ccd.offset = new Vector2 (0f, 0.7f);
+            ccd.offset = new Vector2(0f, 0.7f);
             ccd.size = new Vector2(1f, 1.5f);
         }
 
@@ -75,12 +78,11 @@ public class CharacterControllers : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-
-
+            skillDatas[1].UseSkill();
         }
-    }   
+    }
 
     private void PlayerController(PlayerState playerState)
     {
