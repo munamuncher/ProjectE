@@ -32,15 +32,14 @@ public interface ICooldownable
 
 public interface IManaConsumable
 {
-    int mana { get; set; }
     int manaCost { get; }
-    bool HasEnoughMana();
-    void UseMana();
+    bool HasEnoughMana(int currentMana);
+    void UseMana(int currentMana);
 }
 
 public interface IAnimations
 {
-    void PlayMoveAnim(string animationName);
+    void PlayAnim(string animationName , bool loop);
 }
 
 

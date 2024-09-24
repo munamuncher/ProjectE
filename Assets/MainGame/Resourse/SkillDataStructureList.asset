@@ -23,3 +23,8 @@ MonoBehaviour:
     mana: 10
     coolDownTime: 10
     skillDescription: Thunder
+  - id: 2
+    skillName: ShockWave
+    mana: 5
+    coolDownTime: 5
+    skillDescription: ShockWave

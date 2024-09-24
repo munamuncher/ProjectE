@@ -7,7 +7,9 @@ public enum PlayerState
     Player_Idle,
     Player_Move,
     Player_Attack,
-    Player_UseSkill
+    Player_UseSkill,
+    Player_Die,
+    Player_Hit
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -22,7 +24,9 @@ public class CharacterControllers : MonoBehaviour
     private IAnimations animations;
     private PlayerState currentState = PlayerState.Player_Idle;
     private GameObject detectedTarget;
-
+  
+    private SkillManager skillManager;
+    private float castingTime = 2f;
     private void Awake()
     {
         if (!TryGetComponent<Rigidbody2D>(out rgb))
@@ -76,27 +80,60 @@ public class CharacterControllers : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKeyDown(KeyCode.K))
         {
-
+            CastingSpell(1);
         }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            PlayerController(PlayerState.Player_Die);
+        }
+    }
+
+    private void CastingSpell(int SkillIndex)
+    {
+        skillManager = SkillManager.sInst;
+        skillManager.CastSpell(SkillIndex);
+        PlayerController(PlayerState.Player_UseSkill);
+        StartCoroutine(StartCastTIme());
     }
 
     private void PlayerController(PlayerState playerState)
     {
         currentState = playerState;
+        Debug.Log(playerState);
         switch (playerState)
         {
             case PlayerState.Player_Move:
-                animations.PlayMoveAnim("Move");
+                animations.PlayAnim("Move" , true);
                 StartCoroutine(StartMoving());
                 break;
             case PlayerState.Player_Idle:
                 StopCoroutine(StartMoving());
-                animations.PlayMoveAnim("Idle");
+                animations.PlayAnim("Idle" ,true);
+                break;
+            case PlayerState.Player_Attack:
+                StopCoroutine(StartMoving());
+                animations.PlayAnim("Attack", true);
+                break;
+            case PlayerState.Player_UseSkill:
+                StopCoroutine(StartMoving());
+                animations.PlayAnim("Skill", false);
+                break;
+            case PlayerState.Player_Die:
+                StopAllCoroutines();
+                animations.PlayAnim("Dead", false);
+                break;
+            case PlayerState.Player_Hit:
+                animations.PlayAnim("Hit", false);
                 break;
         }
+    }
 
+    private IEnumerator StartCastTIme()
+    {
+        yield return new WaitForSeconds(castingTime);
+        CheckDeadOrAlive();
     }
 
     private IEnumerator StartMoving()
@@ -109,12 +146,24 @@ public class CharacterControllers : MonoBehaviour
         }
     }
 
+    private void CheckDeadOrAlive()
+    {
+        if (detectedTarget == null)
+        {
+            PlayerController(PlayerState.Player_Move);
+        }
+        else
+        {
+            PlayerController(PlayerState.Player_Attack);
+        }
+    }
+
     #region Colliders
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            PlayerController(PlayerState.Player_Idle);
+            PlayerController(PlayerState.Player_Attack);
             detectedTarget = collision.gameObject;
         }
     }

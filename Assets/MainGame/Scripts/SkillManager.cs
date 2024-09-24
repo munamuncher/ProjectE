@@ -31,16 +31,20 @@ public class SkillManager : MonoBehaviour
     [SerializeField]
     private List<Skill> skillList;
     private Skill currentSkill;
+
+    private int currentMana = 1000;
+    
     private void Start()
     {
         skillList = new List<Skill>
         {
             new FireBall(),
-            new Thunder()
+            new Thunder(),
+            new ShockWave()
         };
 
-        currentSkill = skillList[1];
-        currentSkill.mana = 100;
+      
+        currentSkill = skillList[0];
     }
 
     private void Update()
@@ -49,31 +53,26 @@ public class SkillManager : MonoBehaviour
         {
             skill.UpdateCooldown();
         }
-
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            CastSpell(0);
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            CastSpell(1);
-        }
     }
 
-    private void CastSpell(int index)
+    public void CastSpell(int index)
     {
-        if(index >= 0 && index <skillList.Count)
+        if (index >= 0 && index < skillList.Count)
         {
             RetiveData(index);
             currentSkill = skillList[index];
-            Debug.Log($"castin spell {index} spell number");
-            Debug.Log($"currect Skill is  {currentSkill}");
-            currentSkill.UseSkill();
+            if(currentSkill.HasEnoughMana(currentMana) && !currentSkill.IsOnCooldown())
+            {
+                currentSkill.UseMana(currentMana);
+                Debug.Log($"Casting skill at index {index}, which is {currentSkill.GetType().Name}");
+                currentSkill.UseSkill();
+            }
         }
         else
         {
             Debug.LogError("Skill index out of range");
-        }             
+        }
+            
     }
 
     private void RetiveData(int index)
@@ -85,11 +84,10 @@ public class SkillManager : MonoBehaviour
             {
                 Skill skill = skillList[index];
                 skill.manaCost = data.mana;
-                skill.coolDownTime = data.coolDownTime;                
-                Debug.Log("the mana cost for this is = "+skill.manaCost);
-                Debug.Log("the cooldown for the spell is this = "+skill.coolDownTime);
-                Debug.Log("the skill name is this = "+data.skillName);
+                skill.coolDownTime = data.coolDownTime;
+                Debug.Log($"Retrieved data for {skill.GetType().Name}: Mana = {skill.manaCost}, Cooldown = {skill.coolDownTime}");
             }
         }
+        
     }
 }

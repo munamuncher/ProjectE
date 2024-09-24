@@ -16,9 +16,9 @@ public class CharacterAnim : MonoBehaviour, IAnimations
         }
     }
 
-    public void PlayMoveAnim(string animationName)
+    public void PlayAnim(string animationName ,bool loop)
     {
-           spine.state.SetAnimation(0, animationName, true);
+           spine.state.SetAnimation(0, animationName, loop);
             Debug.Log("animation name  " + animationName);
     }
 }
