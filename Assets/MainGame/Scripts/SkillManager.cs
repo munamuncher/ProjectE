@@ -32,6 +32,9 @@ public class SkillManager : MonoBehaviour
     private List<Skill> skillList;
     private Skill currentSkill;
 
+    private PoolManager poolManager;
+    public GameObject castingPoint;
+
     private int currentMana = 1000;
     
     private void Start()
@@ -49,6 +52,12 @@ public class SkillManager : MonoBehaviour
 
     private void Update()
     {
+
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            CastSpell(0);
+        }
+
         foreach(var skill in skillList)
         {
             skill.UpdateCooldown();
@@ -57,11 +66,14 @@ public class SkillManager : MonoBehaviour
 
     public void CastSpell(int index)
     {
+        poolManager = PoolManager.pinst;
         if (index >= 0 && index < skillList.Count)
         {
             RetiveData(index);
             currentSkill = skillList[index];
-            if(currentSkill.HasEnoughMana(currentMana) && !currentSkill.IsOnCooldown())
+            GameObject spell = poolManager.pools[index].Pop();
+            spell.transform.position = castingPoint.transform.position;
+            if (currentSkill.HasEnoughMana(currentMana) && !currentSkill.IsOnCooldown())
             {
                 currentSkill.UseMana(currentMana);
                 Debug.Log($"Casting skill at index {index}, which is {currentSkill.GetType().Name}");
