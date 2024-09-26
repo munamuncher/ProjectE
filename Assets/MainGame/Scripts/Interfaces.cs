@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public interface ITarget
@@ -41,6 +42,23 @@ public interface IAnimations
 {
     void PlayAnim(string animationName , bool loop);
 }
+
+
+public interface ISkillMove
+{
+    void SkillMove();
+}
+
+public interface ISKillBuff
+{
+    void SkillBuff();
+}
+
+public interface IChangeSkill
+{
+     void ReciveSprite(Sprite sprite);
+}
+
 
 
 

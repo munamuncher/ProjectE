@@ -46,6 +46,9 @@ public class SkillData : ScriptableObject
         public int mana;
         public float coolDownTime;
         public string skillDescription;
+        public int damage;
+        public Sprite spellSprite;
+
     }
 
     public SkillDataStructure GetSkill(int id)

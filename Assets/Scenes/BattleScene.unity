@@ -1071,7 +1071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbdb945cce2d3524fafed40e6a30340e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetLabel: {fileID: -8487413353959370969, guid: dfbd7f5b66f03d448a43f08bd61f9565, type: 3}
+  targetLabel: {fileID: -1509764825817728291, guid: dfbd7f5b66f03d448a43f08bd61f9565, type: 3}
   allocateCount: 30
 --- !u!4 &1324236635
 Transform:
@@ -1199,6 +1199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillData: {fileID: 11400000, guid: f62fdcb9632c9ff42a3424e74ede9101, type: 2}
   castingPoint: {fileID: 1887693934}
+  attackSpell: {fileID: 5766564493400542369, guid: dfbd7f5b66f03d448a43f08bd61f9565, type: 3}
 --- !u!4 &1802506536
 Transform:
   m_ObjectHideFlags: 0
@@ -1286,9 +1287,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: 2ad616bc30603604aa8419ae773ddf40, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.70980394}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1463,7 +1464,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 165228, guid: 9d497845eef56ae439406f724d137364, type: 3}
       propertyPath: m_Name
-      value: Turner
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 165228, guid: 9d497845eef56ae439406f724d137364, type: 3}
       propertyPath: m_IsActive

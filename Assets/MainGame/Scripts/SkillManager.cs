@@ -30,10 +30,15 @@ public class SkillManager : MonoBehaviour
     private SkillData skillData;
     [SerializeField]
     private List<Skill> skillList;
+
     private Skill currentSkill;
 
     private PoolManager poolManager;
     public GameObject castingPoint;
+
+    [SerializeField]
+    private GameObject attackSpell;
+    private IChangeSkill changeSkill;
 
     private int currentMana = 1000;
     
@@ -44,9 +49,18 @@ public class SkillManager : MonoBehaviour
             new FireBall(),
             new Thunder(),
             new ShockWave()
-        };
-
-      
+        }; 
+        if(attackSpell != null)
+        {
+            if(!attackSpell.TryGetComponent<IChangeSkill>(out changeSkill))
+            {
+                Debug.LogError("iChangeSkill 참조 실패 - SkillManager.cs - Awake()");
+            }
+        }
+        else
+        {
+            Debug.LogError("atttackSpell null - SkillManager.cs - Awake()");
+        }
         currentSkill = skillList[0];
     }
 
@@ -69,7 +83,7 @@ public class SkillManager : MonoBehaviour
         poolManager = PoolManager.pinst;
         if (index >= 0 && index < skillList.Count)
         {
-            RetiveData(index);
+            RetriveData(index);
             currentSkill = skillList[index];
             GameObject spell = poolManager.pools[index].Pop();
             spell.transform.position = castingPoint.transform.position;
@@ -87,7 +101,7 @@ public class SkillManager : MonoBehaviour
             
     }
 
-    private void RetiveData(int index)
+    private void RetriveData(int index)
     {
         Debug.Log("retriving data");
         foreach(var data in skillData.skillDataList)
@@ -97,7 +111,9 @@ public class SkillManager : MonoBehaviour
                 Skill skill = skillList[index];
                 skill.manaCost = data.mana;
                 skill.coolDownTime = data.coolDownTime;
-                Debug.Log($"Retrieved data for {skill.GetType().Name}: Mana = {skill.manaCost}, Cooldown = {skill.coolDownTime}");
+                Debug.Log($"Retrieved data for {skill.GetType().Name}: Mana = {skill.manaCost}, Cooldown = {skill.coolDownTime}, SpellSprite = {data.spellSprite.name}");
+                changeSkill.ReciveSprite(data.spellSprite);
+                Debug.Log($"skill sprite has changes to {data.spellSprite.name}");
             }
         }
         

@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1600738468459858257}
   - component: {fileID: 659196197852289778}
-  - component: {fileID: -8487413353959370969}
+  - component: {fileID: -1509764825817728291}
   m_Layer: 0
-  m_Name: fireball
+  m_Name: CastingDamage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: bd7e921e22f8f2e468475a7187870c40, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-8487413353959370969
+--- !u!114 &-1509764825817728291
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,6 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5766564493400542369}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c158f582b90e644ad61e253e6cf7e5, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fa50e8c8c1720f4a97837366c43655d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillSprite: {fileID: 659196197852289778}
