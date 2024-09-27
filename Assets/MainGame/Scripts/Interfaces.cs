@@ -56,7 +56,7 @@ public interface ISKillBuff
 
 public interface IChangeSkill
 {
-     void ReciveSprite(Sprite sprite);
+     void ReciveSprite(RuntimeAnimatorController animation);
 }
 
 

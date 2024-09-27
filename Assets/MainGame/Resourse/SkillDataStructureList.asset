@@ -19,4 +19,11 @@ MonoBehaviour:
     coolDownTime: 5
     skillDescription: Fireball is being Shot
     damage: 20
-    spellSprite: {fileID: 21300000, guid: bd7e921e22f8f2e468475a7187870c40, type: 3}
+    spellAnimation: {fileID: 9100000, guid: 2216a07adddae4cf792492157b6ffa0e, type: 2}
+  - id: 1
+    skillName: TwinFireBall
+    mana: 10
+    coolDownTime: 5
+    skillDescription: TwinFireBall is being Shot
+    damage: 20
+    spellAnimation: {fileID: 9100000, guid: b8b2754bc9c5344a890bf68bb8a04200, type: 2}

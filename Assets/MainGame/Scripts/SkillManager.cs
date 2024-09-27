@@ -61,7 +61,6 @@ public class SkillManager : MonoBehaviour
         {
             Debug.LogError("atttackSpell null - SkillManager.cs - Awake()");
         }
-        currentSkill = skillList[0];
     }
 
     private void Update()
@@ -72,7 +71,12 @@ public class SkillManager : MonoBehaviour
             CastSpell(0);
         }
 
-        foreach(var skill in skillList)
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            CastSpell(1);
+        }
+
+        foreach (var skill in skillList)
         {
             skill.UpdateCooldown();
         }
@@ -85,13 +89,18 @@ public class SkillManager : MonoBehaviour
         {
             RetriveData(index);
             currentSkill = skillList[index];
-            GameObject spell = poolManager.pools[index].Pop();
+            GameObject spell = poolManager.pools[0].Pop();
+            if(!spell.TryGetComponent<IChangeSkill>(out changeSkill))
             spell.transform.position = castingPoint.transform.position;
             if (currentSkill.HasEnoughMana(currentMana) && !currentSkill.IsOnCooldown())
             {
                 currentSkill.UseMana(currentMana);
                 Debug.Log($"Casting skill at index {index}, which is {currentSkill.GetType().Name}");
                 currentSkill.UseSkill();
+            }
+            else
+            {
+                Debug.Log("Skill on coolDown");
             }
         }
         else
@@ -111,9 +120,9 @@ public class SkillManager : MonoBehaviour
                 Skill skill = skillList[index];
                 skill.manaCost = data.mana;
                 skill.coolDownTime = data.coolDownTime;
-                Debug.Log($"Retrieved data for {skill.GetType().Name}: Mana = {skill.manaCost}, Cooldown = {skill.coolDownTime}, SpellSprite = {data.spellSprite.name}");
-                changeSkill.ReciveSprite(data.spellSprite);
-                Debug.Log($"skill sprite has changes to {data.spellSprite.name}");
+                Debug.Log($"Retrieved data for {skill.GetType().Name}: Mana = {skill.manaCost}, Cooldown = {skill.coolDownTime}, SpellSprite = {data.spellAnimation.name}");
+                changeSkill.ReciveSprite(data.spellAnimation);
+                Debug.Log($"skill sprite has changes to {data.spellAnimation.name}");
             }
         }
         

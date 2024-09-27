@@ -1199,7 +1199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillData: {fileID: 11400000, guid: f62fdcb9632c9ff42a3424e74ede9101, type: 2}
   castingPoint: {fileID: 1887693934}
-  attackSpell: {fileID: 5766564493400542369, guid: dfbd7f5b66f03d448a43f08bd61f9565, type: 3}
+  attackSpell: {fileID: 0}
 --- !u!4 &1802506536
 Transform:
   m_ObjectHideFlags: 0

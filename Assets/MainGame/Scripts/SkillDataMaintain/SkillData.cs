@@ -47,7 +47,7 @@ public class SkillData : ScriptableObject
         public float coolDownTime;
         public string skillDescription;
         public int damage;
-        public Sprite spellSprite;
+        public RuntimeAnimatorController spellAnimation;
 
     }
 

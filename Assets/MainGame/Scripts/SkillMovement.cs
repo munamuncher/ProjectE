@@ -7,10 +7,12 @@ public class SkillMovement : PoolLabel, ISkillMove, IChangeSkill
     private float DeathTimer = 3f;
     [SerializeField]
     private SpriteRenderer skillSprite;
+    [SerializeField]
+    private Animator anim;
 
     private void OnEnable()
     {
-        DeathTimer = 3f;
+        DeathTimer = 2f;
     }
 
     public void Update()
@@ -18,10 +20,10 @@ public class SkillMovement : PoolLabel, ISkillMove, IChangeSkill
         SkillMove();
     }
 
-    public void ReciveSprite(Sprite sprite)
+    public void ReciveSprite(RuntimeAnimatorController animator)
     {
-        skillSprite.sprite = sprite;        
-        Debug.Log($"sprite has recived the change {sprite.name}");
+        anim.runtimeAnimatorController = animator;        
+        Debug.Log($"sprite has recived the change {animator.name}");
     }
     public void SkillMove()
     {
