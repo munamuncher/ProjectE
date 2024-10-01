@@ -30,15 +30,13 @@ public class SkillManager : MonoBehaviour
     private SkillData skillData;
     [SerializeField]
     private List<Skill> skillList;
-
+    private bool isLeftorRight = true;
     private Skill currentSkill;
 
     private PoolManager poolManager;
     public GameObject castingPoint;
-
-    [SerializeField]
-    private GameObject attackSpell;
     private IChangeSkill changeSkill;
+    private ISkillMove skillMove;
 
     private int currentMana = 1000;
     
@@ -50,17 +48,6 @@ public class SkillManager : MonoBehaviour
             new Thunder(),
             new ShockWave()
         }; 
-        if(attackSpell != null)
-        {
-            if(!attackSpell.TryGetComponent<IChangeSkill>(out changeSkill))
-            {
-                Debug.LogError("iChangeSkill 참조 실패 - SkillManager.cs - Awake()");
-            }
-        }
-        else
-        {
-            Debug.LogError("atttackSpell null - SkillManager.cs - Awake()");
-        }
     }
 
     private void Update()
@@ -81,16 +68,28 @@ public class SkillManager : MonoBehaviour
             skill.UpdateCooldown();
         }
     }
-
+  
     public void CastSpell(int index)
     {
         poolManager = PoolManager.pinst;
         if (index >= 0 && index < skillList.Count)
         {
-            RetriveData(index);
+            
             currentSkill = skillList[index];
-            GameObject spell = poolManager.pools[0].Pop();
+            GameObject spell = poolManager.pools[0].Pop();            
             if(!spell.TryGetComponent<IChangeSkill>(out changeSkill))
+            {
+                Debug.Log("chageskill not found");
+            }
+            if (!spell.TryGetComponent<ISkillMove>(out skillMove))
+            {
+                Debug.Log("skillMove not found");
+            }
+            else
+            {
+                SendDirection(spell);
+            }
+            RetriveData(index);
             spell.transform.position = castingPoint.transform.position;
             if (currentSkill.HasEnoughMana(currentMana) && !currentSkill.IsOnCooldown())
             {
@@ -108,6 +107,22 @@ public class SkillManager : MonoBehaviour
             Debug.LogError("Skill index out of range");
         }
             
+    }
+
+    private void SendDirection(GameObject spell)
+    {
+        if (transform.parent.gameObject.transform.localScale.x == 1)
+        {
+            skillMove.ReciveDirection(1);
+            spell.transform.localScale = new Vector3(5, 5, 5);
+            Debug.Log("Player is looking Right");
+        }
+        else
+        {
+            skillMove.ReciveDirection(-1);
+            spell.transform.localScale = new Vector3(-5,5,5);
+            Debug.Log("Player is looking Left");
+        }
     }
 
     private void RetriveData(int index)

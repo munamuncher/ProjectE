@@ -46,6 +46,7 @@ public interface IAnimations
 
 public interface ISkillMove
 {
+    void ReciveDirection(int a);
     void SkillMove();
 }
 
