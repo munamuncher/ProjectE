@@ -158,7 +158,7 @@ public class CharacterControllers : MonoBehaviour
         }
     }
 
-    #region Colliders
+    #region _Player_Colliders_
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Enemy")

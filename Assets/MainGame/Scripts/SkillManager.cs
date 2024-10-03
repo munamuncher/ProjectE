@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//todo list
+//spell with buttons
+//will weapons and equiptment effect the dmg? or just add another damage and multiply it
+//how many skill and jobs??? so far warrior and mage so far
+
 public class SkillManager : MonoBehaviour
 {
     #region _singleton_
@@ -68,31 +74,32 @@ public class SkillManager : MonoBehaviour
             skill.UpdateCooldown();
         }
     }
-  
+
     public void CastSpell(int index)
     {
         poolManager = PoolManager.pinst;
         if (index >= 0 && index < skillList.Count)
         {
-            
+
             currentSkill = skillList[index];
-            GameObject spell = poolManager.pools[0].Pop();            
-            if(!spell.TryGetComponent<IChangeSkill>(out changeSkill))
-            {
-                Debug.Log("chageskill not found");
-            }
-            if (!spell.TryGetComponent<ISkillMove>(out skillMove))
-            {
-                Debug.Log("skillMove not found");
-            }
-            else
-            {
-                SendDirection(spell);
-            }
-            RetriveData(index);
-            spell.transform.position = castingPoint.transform.position;
             if (currentSkill.HasEnoughMana(currentMana) && !currentSkill.IsOnCooldown())
             {
+                GameObject spell = poolManager.pools[0].Pop();
+                if (!spell.TryGetComponent<IChangeSkill>(out changeSkill))
+                {
+                    Debug.Log("chageskill not found");
+                }
+                if (!spell.TryGetComponent<ISkillMove>(out skillMove))
+                {
+                    Debug.Log("skillMove not found");
+                }
+                else
+                {
+                    SendDirection(spell);
+                }
+                RetriveData(index);
+                spell.transform.position = castingPoint.transform.position;
+
                 currentSkill.UseMana(currentMana);
                 Debug.Log($"Casting skill at index {index}, which is {currentSkill.GetType().Name}");
                 currentSkill.UseSkill();
@@ -106,7 +113,7 @@ public class SkillManager : MonoBehaviour
         {
             Debug.LogError("Skill index out of range");
         }
-            
+
     }
 
     private void SendDirection(GameObject spell)
