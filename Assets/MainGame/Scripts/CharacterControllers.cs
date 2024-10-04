@@ -109,12 +109,12 @@ public class CharacterControllers : MonoBehaviour
                 StartCoroutine(StartMoving());
                 break;
             case PlayerState.Player_Idle:
-                StopCoroutine(StartMoving());
                 animations.PlayAnim("Idle" ,true);
                 break;
             case PlayerState.Player_Attack:
                 StopCoroutine(StartMoving());
-                animations.PlayAnim("Attack", true);
+                StartCoroutine(StartAttacking());
+                Debug.Log($"{currentState} is being called");
                 break;
             case PlayerState.Player_UseSkill:
                 StopCoroutine(StartMoving());
@@ -136,6 +136,14 @@ public class CharacterControllers : MonoBehaviour
         CheckDeadOrAlive();
     }
 
+    private IEnumerator StartAttacking()
+    {
+        while (currentState == PlayerState.Player_Attack)
+        {
+            animations.PlayAnim("Attack", false);
+            yield return new WaitForSeconds(1f);
+        }
+    }
     private IEnumerator StartMoving()
     {
         while (currentState == PlayerState.Player_Move)
@@ -157,6 +165,8 @@ public class CharacterControllers : MonoBehaviour
             PlayerController(PlayerState.Player_Attack);
         }
     }
+    //공격을 할때 코로틴 사용으로 변경
+
 
     #region _Player_Colliders_
     private void OnTriggerEnter2D(Collider2D collision)

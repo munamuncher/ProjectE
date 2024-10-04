@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour , IMoveable
 {
-    private float speed =1.0f;
+    private float speed = 0.5f;
     private GameObject target;
-
+    private float attackRange = 1.5f;
 
     private void Awake()
     {
@@ -21,17 +21,20 @@ public class EnemyMovement : MonoBehaviour , IMoveable
     {
         if (target != null)
         {
-            speed = 3f;
+            speed = 0.5f;
             Vector3 direction = target.transform.position - transform.position;
-            if (direction.x > 0)
+            float distance = direction.magnitude;
+            if (distance > attackRange)
             {
-                transform.localScale = new Vector3(-1, 1, 1);
-                transform.position = Vector3.MoveTowards(transform.position, target.transform.position - new Vector3(1f, -0.5f, 0f), speed * Time.deltaTime);
-            }
-            else
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-                transform.position = Vector3.MoveTowards(transform.position, target.transform.position - new Vector3(-1f, -0.5f, 0f), speed * Time.deltaTime);
+                if (direction.x > 0)
+                {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
+                else
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
+                transform.position += direction * speed * Time.deltaTime;
             }
         }
     }

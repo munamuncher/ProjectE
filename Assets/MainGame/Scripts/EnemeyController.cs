@@ -18,8 +18,15 @@ public enum EnemyState
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-public class EnemeyController : MonoBehaviour
+public class EnemeyController : PoolLabel , IDamageable
 {
+    [SerializeField]
+    private int health;
+    [SerializeField]
+    private int armor;
+    [SerializeField]
+    private int damage;
+
     private Rigidbody2D rbd;
     private CapsuleCollider2D ccd;
     [SerializeField]
@@ -46,7 +53,7 @@ public class EnemeyController : MonoBehaviour
         else
         {
             ccd.isTrigger = true;
-            ccd.size = new Vector2(1.6f, 2.5f);
+            ccd.size = new Vector2(3f, 3f);
         }
 
         moveable = GetComponent<IMoveable>();
@@ -85,6 +92,14 @@ public class EnemeyController : MonoBehaviour
         }
     }
 
+    public void ReciveStatus(int Health, int Amror, int Damage)
+    {
+        this.health = Health;
+        this.armor = Amror;
+        this.damage = Damage;
+        Debug.Log($"i have recived {Health}, {Amror}, {Damage}");
+    }
+
     #region _Monster_Colliders_
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -106,5 +121,12 @@ public class EnemeyController : MonoBehaviour
         }
 
     }
-    #endregion
+
+
+    #endregion    
+    public void Damage(int DamageAmount)
+    {
+        DamageAmount -= health;
+        Debug.Log($"i have Taken {DamageAmount}");
+    }
 }

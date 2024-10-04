@@ -36,7 +36,6 @@ public class SkillManager : MonoBehaviour
     private SkillData skillData;
     [SerializeField]
     private List<Skill> skillList;
-    private bool isLeftorRight = true;
     private Skill currentSkill;
 
     private PoolManager poolManager;
@@ -45,6 +44,8 @@ public class SkillManager : MonoBehaviour
     private ISkillMove skillMove;
 
     private int currentMana = 1000;
+
+    private Dictionary<int, SkillData.SkillDataStructure> skillDataCache = new Dictionary<int, SkillData.SkillDataStructure>();
     
     private void Start()
     {
@@ -134,19 +135,34 @@ public class SkillManager : MonoBehaviour
 
     private void RetriveData(int index)
     {
-        Debug.Log("retriving data");
+       Debug.Log("retriving data");
+        if(skillDataCache.TryGetValue(index, out var cachedData))
+        {
+            ApplySkillData(cachedData);
+        }
+
         foreach(var data in skillData.skillDataList)
         {
-            if (data.id == index)
+            if(data.id == index)
             {
-                Skill skill = skillList[index];
-                skill.manaCost = data.mana;
-                skill.coolDownTime = data.coolDownTime;
-                Debug.Log($"Retrieved data for {skill.GetType().Name}: Mana = {skill.manaCost}, Cooldown = {skill.coolDownTime}, SpellSprite = {data.spellAnimation.name}");
-                changeSkill.ReciveSprite(data.spellAnimation);
-                Debug.Log($"skill sprite has changes to {data.spellAnimation.name}");
+                skillDataCache[index] = data;
+                ApplySkillData(data);
+                break;
             }
         }
-        
     }
+    private void ApplySkillData(SkillData.SkillDataStructure data)
+    {
+
+        Skill skill = skillList[data.id];
+        skill.manaCost = data.mana;
+        skill.coolDownTime = data.coolDownTime;
+        Debug.Log($"Retrieved data for {skill.GetType().Name}: Mana = {skill.manaCost}, Cooldown = {skill.coolDownTime}, SpellSprite = {data.spellAnimation.name}");
+        changeSkill.ReciveSprite(data.spellAnimation);
+        Debug.Log($"skill sprite has changes to {data.spellAnimation.name}");
+
+
+    }
+
+        
 }
