@@ -10,7 +10,7 @@ public interface ITarget
 
 public interface IMoveable
 {
-    void Move();
+    void Move(GameObject target);
 }
 
 public interface IDamageable

@@ -68,9 +68,14 @@ public class EnemeyController : PoolLabel , IDamageable
         }
     }
 
+    private void OnEnable()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player");
+    }
+
     private void Update()
     {
-        moveable?.Move();
+        moveable?.Move(Player);
     }
 
     private void MonsterController(EnemyState enemyState)
@@ -126,7 +131,11 @@ public class EnemeyController : PoolLabel , IDamageable
     #endregion    
     public void Damage(int DamageAmount)
     {
-        DamageAmount -= health;
-        Debug.Log($"i have Taken {DamageAmount}");
+        health -= DamageAmount;
+        Debug.Log($"i have Taken {DamageAmount} now {health} is remaining");
+        if(health <= 0)
+        {
+            Push();
+        }
     }
 }

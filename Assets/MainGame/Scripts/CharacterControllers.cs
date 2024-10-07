@@ -22,11 +22,17 @@ public class CharacterControllers : MonoBehaviour
 
     private IMoveable moveable;
     private IAnimations animations;
+    [SerializeField]
     private PlayerState currentState = PlayerState.Player_Idle;
+    private IDamageable damageable;
+    private ITarget target;
+
     private GameObject detectedTarget;
   
     private SkillManager skillManager;
     private float castingTime = 2f;
+     
+
     private void Awake()
     {
         if (!TryGetComponent<Rigidbody2D>(out rgb))
@@ -55,27 +61,21 @@ public class CharacterControllers : MonoBehaviour
         {
             Debug.LogError("IMoveable 참조 실패");
         }
-        else
-        {
-            moveable.Move();
-        }
         animations = GetComponent<IAnimations>();
         if (animations == null)
         {
             Debug.LogError("IAnimations 참조 실패");
         }
+        target = GetComponent<ITarget>();
+        if(target == null)
+        {
+            Debug.LogError("ITarget 참조 실패");
+        }
     }
 
     private void Start()
     {
-        if (moveable != null)
-        {
-            PlayerController(PlayerState.Player_Move);
-        }
-        else
-        {
-            Debug.Log("Moveable 참조 실패");
-        }
+        PlayerController(PlayerState.Player_Move); 
     }
 
     private void Update()
@@ -141,6 +141,10 @@ public class CharacterControllers : MonoBehaviour
         while (currentState == PlayerState.Player_Attack)
         {
             animations.PlayAnim("Attack", false);
+            if(target.target != null)
+            {
+                target.target.GetComponent<IDamageable>().Damage(20);
+            }    
             yield return new WaitForSeconds(1f);
         }
     }
@@ -148,9 +152,17 @@ public class CharacterControllers : MonoBehaviour
     {
         while (currentState == PlayerState.Player_Move)
         {
-            moveable.Move();
-            Debug.Log("StartMoving coroutine is running");
-            yield return null; // Wait for the next frame before continuing
+            if (target.target != null)
+            {
+                moveable.Move(target.target);
+                Debug.Log("StartMoving coroutine is running");
+                yield return null;
+            }
+            else
+            {
+                Debug.Log("Target is null, stopping movement.");
+                yield break;
+            }
         }
     }
 
@@ -159,6 +171,7 @@ public class CharacterControllers : MonoBehaviour
         if (detectedTarget == null)
         {
             PlayerController(PlayerState.Player_Move);
+            Debug.Log("target is Dead Looking for next");
         }
         else
         {
@@ -166,25 +179,13 @@ public class CharacterControllers : MonoBehaviour
         }
     }
     //공격을 할때 코로틴 사용으로 변경
-
-
-    #region _Player_Colliders_
+    #region _Player_Colliders_ 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject == target.target)
         {
             PlayerController(PlayerState.Player_Attack);
-            detectedTarget = collision.gameObject;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject == detectedTarget)
-        {
-            Debug.Log("Target lost: " + detectedTarget.name);
-            detectedTarget = null;
-            PlayerController(PlayerState.Player_Move);
+            Debug.Log("Attacker in range");
         }
     }
     #endregion

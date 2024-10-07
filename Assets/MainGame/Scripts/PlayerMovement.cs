@@ -5,27 +5,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour, IMoveable
 {
     [SerializeField] private float speed = 3f;
-    private ITarget tracker;
-    private GameObject target;
-    private void Awake()
-    {
-        tracker = GetComponent<ITarget>();
-        if(tracker == null)
-        {
-            Debug.Log("tracker is null");
-        }
-    }
 
-    private void Update()
-    {
-        if (tracker != null && tracker.target != null)
-        {
-
-            target = tracker.target;
-        }
-    }
-
-    public void Move()
+    public void Move(GameObject target)
     {
         if (target != null)
         {
