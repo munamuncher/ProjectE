@@ -7,38 +7,21 @@ public class TargetTracker : MonoBehaviour, ITarget
     public List<GameObject> allObjects = new List<GameObject>();
     public GameObject nearTarget;
     private float nearestDistance = float.MaxValue;
-
     public GameObject target { get; set; }
 
-    private void Awake()
-    {
-        UpdateEnemyList();
-        FindClosestTarget();
-    }
-
-    private void Update()
-    {
-        if (nearTarget == null || !nearTarget.activeInHierarchy)
-        {
-            UpdateEnemyList();
-            FindClosestTarget();
-        }
-       
-    }
-
-    private void UpdateEnemyList()
+    public void UpdateEnemyList() //리스트가 비여있을때 찾고 
     {
         allObjects.Clear();
         allObjects.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
     }
 
-    private void FindClosestTarget()
+    public void FindClosestTarget()//제일 가까운 적을 타켓으로 지정
     {
+        UpdateEnemyList();
         nearestDistance = float.MaxValue;
-
         foreach (GameObject obj in allObjects)
         {
-            if (obj != null) 
+            if (obj != null && obj.activeInHierarchy)
             {
                 float distance = Vector3.Distance(this.transform.position, obj.transform.position);
                 if (distance < nearestDistance)
@@ -48,7 +31,7 @@ public class TargetTracker : MonoBehaviour, ITarget
 
                 }
             }
-        }                   
+        }
         target = nearTarget;
     }
 

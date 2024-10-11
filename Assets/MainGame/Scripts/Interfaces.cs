@@ -6,6 +6,9 @@ using UnityEngine;
 public interface ITarget
 {
     GameObject target { get; set; }
+    void UpdateEnemyList();
+    void FindClosestTarget();
+
 }
 
 public interface IMoveable

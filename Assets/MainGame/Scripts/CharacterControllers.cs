@@ -26,8 +26,6 @@ public class CharacterControllers : MonoBehaviour
     private PlayerState currentState = PlayerState.Player_Idle;
     private IDamageable damageable;
     private ITarget target;
-
-    private GameObject detectedTarget;
   
     private SkillManager skillManager;
     private float castingTime = 2f;
@@ -80,23 +78,23 @@ public class CharacterControllers : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
+        if (target.target != null && target.target.activeInHierarchy)
         {
-            CastingSpell(1);
+            if (currentState == PlayerState.Player_Idle)
+            {
+                PlayerController(PlayerState.Player_Move);
+            }
         }
-        if (Input.GetKeyDown(KeyCode.K))
+        else
         {
-            PlayerController(PlayerState.Player_Die);
+            if(currentState == PlayerState.Player_Idle)
+            {
+                target.UpdateEnemyList();
+                target.FindClosestTarget();
+            }
         }
     }
 
-    private void CastingSpell(int SkillIndex)
-    {
-        skillManager = SkillManager.sInst;
-        skillManager.CastSpell(SkillIndex);
-        PlayerController(PlayerState.Player_UseSkill);
-        StartCoroutine(StartCastTIme());
-    }
 
     private void PlayerController(PlayerState playerState)
     {
@@ -110,6 +108,7 @@ public class CharacterControllers : MonoBehaviour
                 break;
             case PlayerState.Player_Idle:
                 animations.PlayAnim("Idle" ,true);
+                target.FindClosestTarget();
                 break;
             case PlayerState.Player_Attack:
                 StopCoroutine(StartMoving());
@@ -129,22 +128,47 @@ public class CharacterControllers : MonoBehaviour
                 break;
         }
     }
-
+    #region _SpellCasting_
+    private void CastingSpell(int SkillIndex)
+    {
+        skillManager = SkillManager.sInst;
+        skillManager.CastSpell(SkillIndex);
+        PlayerController(PlayerState.Player_UseSkill);
+        StartCoroutine(StartCastTIme());
+    }
     private IEnumerator StartCastTIme()
     {
         yield return new WaitForSeconds(castingTime);
         CheckDeadOrAlive();
     }
-
+    #endregion
     private IEnumerator StartAttacking()
     {
         while (currentState == PlayerState.Player_Attack)
         {
-            animations.PlayAnim("Attack", false);
-            if(target.target != null)
+            if (target.target != null && target.target.activeInHierarchy)
             {
-                target.target.GetComponent<IDamageable>().Damage(20);
-            }    
+                var damageable = target.target.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    animations.PlayAnim("Attack", false);
+                    yield return new WaitForSeconds(0.5f);
+                    damageable.Damage(20);
+                    Debug.Log($"Attacking target: {target.target}");
+                }
+                else
+                {
+                    Debug.Log($"{target.target} is Dead");
+                    PlayerController(PlayerState.Player_Idle);
+                    yield break;
+                }
+            }
+            else
+            {
+                Debug.Log("Target is null, stopping attack.");
+                PlayerController(PlayerState.Player_Idle);
+                yield break;
+            }
             yield return new WaitForSeconds(1f);
         }
     }
@@ -155,12 +179,14 @@ public class CharacterControllers : MonoBehaviour
             if (target.target != null)
             {
                 moveable.Move(target.target);
-                Debug.Log("StartMoving coroutine is running");
+                AttackRange(target.target);
+                Debug.Log($"StartMoving coroutine is running...... current{target.target}");
                 yield return null;
             }
             else
             {
                 Debug.Log("Target is null, stopping movement.");
+                PlayerController(PlayerState.Player_Idle);
                 yield break;
             }
         }
@@ -168,7 +194,7 @@ public class CharacterControllers : MonoBehaviour
 
     private void CheckDeadOrAlive()
     {
-        if (detectedTarget == null)
+        if (target.target == null)
         {
             PlayerController(PlayerState.Player_Move);
             Debug.Log("target is Dead Looking for next");
@@ -179,14 +205,19 @@ public class CharacterControllers : MonoBehaviour
         }
     }
     //공격을 할때 코로틴 사용으로 변경
-    #region _Player_Colliders_ 
-    private void OnTriggerEnter2D(Collider2D collision)
+    //거리 확인으로 공격
+    private void AttackRange(GameObject target)
     {
-        if (collision.gameObject == target.target)
+        Vector3 dir = target.transform.position - transform.position;
+        float distance = dir.magnitude;
+        if(distance < 1.2f)
         {
             PlayerController(PlayerState.Player_Attack);
-            Debug.Log("Attacker in range");
+            Debug.Log($"{target} is in range");
+        }
+        else
+        {
+            Debug.Log($"{target} is not in range");
         }
     }
-    #endregion
 }

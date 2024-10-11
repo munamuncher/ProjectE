@@ -131,7 +131,7 @@ public class EnemeyController : PoolLabel , IDamageable
     #endregion    
     public void Damage(int DamageAmount)
     {
-        health -= DamageAmount;
+        health -= (DamageAmount - armor);
         Debug.Log($"i have Taken {DamageAmount} now {health} is remaining");
         if(health <= 0)
         {

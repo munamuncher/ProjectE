@@ -19,3 +19,15 @@ MonoBehaviour:
     Armor: 10
     damage: 10
     MonsterAnim: {fileID: 9100000, guid: bb60a6f9c54ca21409d63bd60e331829, type: 2}
+  - id: 1
+    monsterName: Para_Witch
+    health: 100
+    Armor: 5
+    damage: 15
+    MonsterAnim: {fileID: 9100000, guid: bb60a6f9c54ca21409d63bd60e331829, type: 2}
+  - id: 2
+    monsterName: Slime_Shooter
+    health: 50
+    Armor: 5
+    damage: 20
+    MonsterAnim: {fileID: 9100000, guid: 9fc63ab9fb09a404d8510b1a1314affe, type: 2}
