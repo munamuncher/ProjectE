@@ -46,21 +46,28 @@ public class SkillManager : MonoBehaviour
     private int currentMana = 1000;
 
     private Dictionary<int, SkillData.SkillDataStructure> skillDataCache = new Dictionary<int, SkillData.SkillDataStructure>();
-    
+
     private void Start()
     {
-        skillList = new List<Skill>
+        skillList = new List<Skill> { new FireBall(), new Thunder(), new ShockWave() };
+        CacheSkillData();
+    }
+
+    private void CacheSkillData()
+    {
+        foreach (var data in skillData.skillDataList)
         {
-            new FireBall(),
-            new Thunder(),
-            new ShockWave()
-        }; 
+            if (!skillDataCache.ContainsKey(data.id))
+            {
+                skillDataCache[data.id] = data;
+                Debug.Log($"Skill data for ID {data.id} cached.");
+            }
+        }
     }
 
     private void Update()
     {
-
-        if(Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             CastSpell(0);
         }
@@ -81,88 +88,65 @@ public class SkillManager : MonoBehaviour
         poolManager = PoolManager.pinst;
         if (index >= 0 && index < skillList.Count)
         {
-
             currentSkill = skillList[index];
             if (currentSkill.HasEnoughMana(currentMana) && !currentSkill.IsOnCooldown())
             {
                 GameObject spell = poolManager.pools[0].Pop();
                 if (!spell.TryGetComponent<IChangeSkill>(out changeSkill))
                 {
-                    Debug.Log("chageskill not found");
+                    Debug.LogError("IChangeSkill component not found on the spell prefab.");
+                    return;
                 }
                 if (!spell.TryGetComponent<ISkillMove>(out skillMove))
                 {
-                    Debug.Log("skillMove not found");
+                    Debug.LogError("ISkillMove component not found on the spell prefab.");
+                    return;
+                }
+                SendDirection(spell);
+                if (skillDataCache.TryGetValue(index, out var data))
+                {
+                    ApplySkillData(data);
                 }
                 else
                 {
-                    SendDirection(spell);
+                    Debug.LogError($"Skill data for ID {index} not found in cache.");
+                    return;
                 }
-                RetriveData(index);
+
                 spell.transform.position = castingPoint.transform.position;
 
                 currentSkill.UseMana(currentMana);
                 Debug.Log($"Casting skill at index {index}, which is {currentSkill.GetType().Name}");
                 currentSkill.UseSkill();
+                currentSkill.UpdateCooldown();
             }
             else
             {
-                Debug.Log("Skill on coolDown");
+                Debug.Log("Skill is on cooldown or not enough mana.");
             }
         }
         else
         {
-            Debug.LogError("Skill index out of range");
+            Debug.LogError("Skill index out of range.");
         }
-
     }
 
     private void SendDirection(GameObject spell)
     {
-        if (transform.parent.gameObject.transform.localScale.x == 1)
-        {
-            skillMove.ReciveDirection(1);
-            spell.transform.localScale = new Vector3(5, 5, 5);
-            Debug.Log("Player is looking Right");
-        }
-        else
-        {
-            skillMove.ReciveDirection(-1);
-            spell.transform.localScale = new Vector3(-5,5,5);
-            Debug.Log("Player is looking Left");
-        }
+        int direction = transform.parent.localScale.x == 1 ? 1 : -1;
+        skillMove.ReciveDirection(direction);
+        spell.transform.localScale = new Vector3(direction * 5, 5, 5);
+        Debug.Log($"Player is looking {(direction == 1 ? "Right" : "Left")}");
     }
 
-    private void RetriveData(int index)
-    {
-       Debug.Log("retriving data");
-        if(skillDataCache.TryGetValue(index, out var cachedData))
-        {
-            ApplySkillData(cachedData);
-        }
-
-        foreach(var data in skillData.skillDataList)
-        {
-            if(data.id == index)
-            {
-                skillDataCache[index] = data;
-                ApplySkillData(data);
-                break;
-            }
-        }
-    }
     private void ApplySkillData(SkillData.SkillDataStructure data)
     {
-
         Skill skill = skillList[data.id];
         skill.manaCost = data.mana;
         skill.coolDownTime = data.coolDownTime;
         Debug.Log($"Retrieved data for {skill.GetType().Name}: Mana = {skill.manaCost}, Cooldown = {skill.coolDownTime}, SpellSprite = {data.spellAnimation.name}");
         changeSkill.ReciveSprite(data.spellAnimation);
-        Debug.Log($"skill sprite has changes to {data.spellAnimation.name}");
-
-
+        changeSkill.ReciveDamageData(data.damage);
+        Debug.Log($"Skill sprite has changed to {data.spellAnimation.name}");
     }
-
-        
 }

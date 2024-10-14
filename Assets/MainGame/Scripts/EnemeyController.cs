@@ -29,6 +29,7 @@ public class EnemeyController : PoolLabel , IDamageable
 
     private Rigidbody2D rbd;
     private CapsuleCollider2D ccd;
+    private Animator anim;
     [SerializeField]
     private GameObject Player;
 
@@ -71,6 +72,10 @@ public class EnemeyController : PoolLabel , IDamageable
     private void OnEnable()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
+        if(!TryGetComponent<Animator>(out anim))
+        {
+            Debug.Log("Animator 참조 실패 - EnemyController.cs - OnEnable");
+        }
     }
 
     private void Update()
@@ -97,12 +102,14 @@ public class EnemeyController : PoolLabel , IDamageable
         }
     }
 
-    public void ReciveStatus(int Health, int Amror, int Damage)
+    public void ReciveStatus(int Health, int Amror, int Damage, RuntimeAnimatorController MonsterAnim)
     {
         this.health = Health;
         this.armor = Amror;
-        this.damage = Damage;
+        this.damage = Damage;        
         Debug.Log($"i have recived {Health}, {Amror}, {Damage}");
+        this.anim.runtimeAnimatorController = MonsterAnim;
+        Debug.Log($"i have recived {MonsterAnim}");
     }
 
     #region _Monster_Colliders_

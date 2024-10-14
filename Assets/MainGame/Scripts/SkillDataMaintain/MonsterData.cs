@@ -46,7 +46,6 @@ public class MonsterData : ScriptableObject
         public int Armor;
         public int damage;
         public RuntimeAnimatorController MonsterAnim;
-
     }
 
     public MonsterDataStructure GetSkill(int id)

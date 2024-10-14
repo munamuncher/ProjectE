@@ -191,7 +191,6 @@ public class CharacterControllers : MonoBehaviour
             }
         }
     }
-
     private void CheckDeadOrAlive()
     {
         if (target.target == null)
@@ -204,8 +203,6 @@ public class CharacterControllers : MonoBehaviour
             PlayerController(PlayerState.Player_Attack);
         }
     }
-    //공격을 할때 코로틴 사용으로 변경
-    //거리 확인으로 공격
     private void AttackRange(GameObject target)
     {
         Vector3 dir = target.transform.position - transform.position;

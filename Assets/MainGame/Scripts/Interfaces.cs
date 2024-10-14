@@ -46,9 +46,9 @@ public interface IAnimations
     void PlayAnim(string animationName , bool loop);
 }
 
-
 public interface ISkillMove
 {
+
     void ReciveDirection(int a);
     void SkillMove();
 }
@@ -61,6 +61,7 @@ public interface ISKillBuff
 public interface IChangeSkill
 {
      void ReciveSprite(RuntimeAnimatorController animation);
+    void ReciveDamageData(int daamage);
 }
 
 
