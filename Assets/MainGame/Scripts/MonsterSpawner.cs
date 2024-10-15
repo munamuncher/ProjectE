@@ -34,6 +34,7 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField]
     private MonsterData monData;
     private GameObject targetMonster;
+    private MonsterCustomize mc;
 
     private Dictionary<int, MonsterData.MonsterDataStructure> monDataDictCache = new Dictionary<int, MonsterData.MonsterDataStructure>();
 
@@ -56,6 +57,11 @@ public class MonsterSpawner : MonoBehaviour
         {
             targetMonster = poolManager.pools[1].Pop();
             int ran = Random.Range(0, SpawnPos.Length);
+            targetMonster.TryGetComponent<MonsterCustomize>(out mc);
+            if(mc != null)
+            {
+                mc.MonsterCustom(MonIndex);
+            }
             targetMonster.transform.position = SpawnPos[ran].transform.position;
             if (monDataDictCache.TryGetValue(MonIndex, out MonsterData.MonsterDataStructure data))
             {

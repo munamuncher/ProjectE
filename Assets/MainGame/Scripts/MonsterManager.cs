@@ -12,11 +12,7 @@ public class MonsterManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            MonsterSpawner.mInst.SpawnMonster(1, 3);
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            MonsterSpawner.mInst.SpawnMonster(2, 3);
+            MonsterSpawner.mInst.SpawnMonster(3, 3);
         }
     }
 }
