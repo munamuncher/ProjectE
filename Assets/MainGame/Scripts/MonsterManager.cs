@@ -8,11 +8,11 @@ public class MonsterManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-          MonsterSpawner.mInst.SpawnMonster(0, 3);
+          MonsterSpawner.mInst.SpawnMonster(0, 1);
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            MonsterSpawner.mInst.SpawnMonster(3, 3);
+            MonsterSpawner.mInst.SpawnMonster(3, 1);
         }
     }
 }

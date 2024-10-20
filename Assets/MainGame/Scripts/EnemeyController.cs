@@ -102,14 +102,12 @@ public class EnemeyController : PoolLabel , IDamageable
         }
     }
 
-    public void ReciveStatus(int Health, int Amror, int Damage, RuntimeAnimatorController MonsterAnim)
+    public void ReciveStatus(int Health, int Amror, int Damage)
     {
         this.health = Health;
         this.armor = Amror;
         this.damage = Damage;        
         Debug.Log($"i have recived {Health}, {Amror}, {Damage}");
-        this.anim.runtimeAnimatorController = MonsterAnim;
-        Debug.Log($"i have recived {MonsterAnim}");
     }
 
     #region _Monster_Colliders_
@@ -143,6 +141,7 @@ public class EnemeyController : PoolLabel , IDamageable
         if(health <= 0)
         {
             Push();
+            Debug.Log("Pushhing");
         }
     }
 }

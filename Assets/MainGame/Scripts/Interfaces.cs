@@ -21,11 +21,6 @@ public interface IDamageable
     void Damage(int DamageAmount);
 }
 
-public interface ISendData
-{ 
-    void SendData(int val);
-}
-
 public interface ICooldownable
 {
     float coolDownTime { get; }
@@ -60,10 +55,14 @@ public interface ISKillBuff
 
 public interface IChangeSkill
 {
-     void ReciveSprite(RuntimeAnimatorController animation);
+    void ReciveSprite(RuntimeAnimatorController animation);
     void ReciveDamageData(int daamage);
 }
 
+public interface IRecivePoolObjects
+{
+    void ReciveGameObject(GameObject Objects);
+}
 
 
 

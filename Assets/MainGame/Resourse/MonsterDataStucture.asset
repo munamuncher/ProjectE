@@ -14,50 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterDataList:
   - id: 0
-    monsterName: Riding_Reaper
+    monsterName: Riding_Cucu
     health: 100
     Armor: 10
     damage: 10
-    MonsterAnim: {fileID: 9100000, guid: bb60a6f9c54ca21409d63bd60e331829, type: 2}
-    HeadSprite: {fileID: 1322119876, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-    BodySprite: {fileID: -974324777, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-    RarmSprite: {fileID: -1578093663, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-    LarmSprite: {fileID: -1578093663, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-    RLegSprite: {fileID: 0}
-    LLegSprite: {fileID: 0}
+    MonsterPrefab: {fileID: 2667064324438211130, guid: 77be1b8f1402d744cb067e39258fcedc, type: 3}
   - id: 1
-    monsterName: Para_Witch
+    monsterName: Slug
     health: 100
     Armor: 5
     damage: 15
-    MonsterAnim: {fileID: 9100000, guid: bb60a6f9c54ca21409d63bd60e331829, type: 2}
-    HeadSprite: {fileID: 0}
-    BodySprite: {fileID: 0}
-    RarmSprite: {fileID: 0}
-    LarmSprite: {fileID: 0}
-    RLegSprite: {fileID: 0}
-    LLegSprite: {fileID: 0}
+    MonsterPrefab: {fileID: 4865121731067000197, guid: 2449bd00fdab2c94d90a27208e462dcd, type: 3}
   - id: 2
-    monsterName: Slime_Shooter
+    monsterName: Flying_Sasage
     health: 50
     Armor: 5
     damage: 20
-    MonsterAnim: {fileID: 9100000, guid: 9fc63ab9fb09a404d8510b1a1314affe, type: 2}
-    HeadSprite: {fileID: 0}
-    BodySprite: {fileID: 0}
-    RarmSprite: {fileID: 0}
-    LarmSprite: {fileID: 0}
-    RLegSprite: {fileID: 0}
-    LLegSprite: {fileID: 0}
+    MonsterPrefab: {fileID: 4897535234656562361, guid: 595e2ba8c6a57f94c91c8f2aa070166a, type: 3}
   - id: 3
-    monsterName: Roming_Soul_Farmer
+    monsterName: Little_Dude
     health: 200
     Armor: 15
     damage: 40
-    MonsterAnim: {fileID: 9100000, guid: 5d53d3a893ed0d9428ef5d8df0a2c3fd, type: 2}
-    HeadSprite: {fileID: 224941661, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-    BodySprite: {fileID: 622571995, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-    RarmSprite: {fileID: 2006587638, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-    LarmSprite: {fileID: -190086642, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-    RLegSprite: {fileID: -106653615, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
-    LLegSprite: {fileID: -106653615, guid: 0c1e734fa85636743af3bc22c6d99ba8, type: 3}
+    MonsterPrefab: {fileID: 6756472823572108189, guid: a0ffb166766504e48a502f90d5effb01, type: 3}

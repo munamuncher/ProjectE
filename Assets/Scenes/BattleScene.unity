@@ -637,7 +637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbdb945cce2d3524fafed40e6a30340e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetLabel: {fileID: 7799857888927296376, guid: 64de714ca57f4f1448ae7d46d32bd6b7, type: 3}
+  targetLabel: {fileID: 1942124512545043492, guid: 77be1b8f1402d744cb067e39258fcedc, type: 3}
   allocateCount: 30
 --- !u!4 &1212736500
 Transform:
@@ -814,6 +814,7 @@ MonoBehaviour:
   - {fileID: 2100016436}
   - {fileID: 765621925}
   monData: {fileID: 11400000, guid: 95fdc46629cd02a4c9f0e80f2168a7e9, type: 2}
+  monsterMainPool: {fileID: 1212736499}
 --- !u!1 &1464528181
 GameObject:
   m_ObjectHideFlags: 0

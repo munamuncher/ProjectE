@@ -14,7 +14,7 @@ public enum PlayerState
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-public class CharacterControllers : MonoBehaviour
+public class CharacterControllers : MonoBehaviour ,IDamageable
 {
 
     private Rigidbody2D rgb;
@@ -29,7 +29,9 @@ public class CharacterControllers : MonoBehaviour
   
     private SkillManager skillManager;
     private float castingTime = 2f;
-     
+
+    private int Health = 200;
+    private int Amrmor = 10;
 
     private void Awake()
     {
@@ -216,5 +218,11 @@ public class CharacterControllers : MonoBehaviour
         {
             Debug.Log($"{target} is not in range");
         }
+    }
+
+    public void Damage(int DamageAmount)
+    {
+        Health -= (DamageAmount - Amrmor);
+        Debug.Log($"{Health}");
     }
 }

@@ -1,21 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+public class ObjectPool : MonoBehaviour , IRecivePoolObjects
 {
-    [SerializeField]
-    private PoolLabel targetLabel;
+    public PoolLabel targetLabel;
     [SerializeField]
     private int allocateCount;
 
     private Stack<PoolLabel> poolStack = new Stack<PoolLabel>();
-
     private void Awake()
     {
         Allocate();
     }
-
     private void Allocate()
     {
         for(int i =0;i<allocateCount;i++)
@@ -37,5 +35,10 @@ public class ObjectPool : MonoBehaviour
     {
        returnLabel.gameObject.SetActive(false);
        poolStack.Push(returnLabel);
+    }
+
+    public void ReciveGameObject(GameObject Objects)
+    {
+        targetLabel = Objects.GetComponent<PoolLabel>();
     }
 }
