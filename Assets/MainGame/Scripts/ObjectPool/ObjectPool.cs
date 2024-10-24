@@ -40,5 +40,6 @@ public class ObjectPool : MonoBehaviour , IRecivePoolObjects
     public void ReciveGameObject(GameObject Objects)
     {
         targetLabel = Objects.GetComponent<PoolLabel>();
+        Allocate();
     }
 }

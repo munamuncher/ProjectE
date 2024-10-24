@@ -107,7 +107,7 @@ public class EnemeyController : PoolLabel , IDamageable
         this.health = Health;
         this.armor = Amror;
         this.damage = Damage;        
-        Debug.Log($"i have recived {Health}, {Amror}, {Damage}");
+        //Debug.Log($"i have recived {Health}, {Amror}, {Damage}");
     }
 
     #region _Monster_Colliders_
@@ -139,9 +139,10 @@ public class EnemeyController : PoolLabel , IDamageable
         health -= (DamageAmount - armor);
         Debug.Log($"i have Taken {DamageAmount} now {health} is remaining");
         if(health <= 0)
-        {
+        {           
+            Debug.Log($"this {gameObject.name} is dead pushing");
             Push();
-            Debug.Log("Pushhing");
+
         }
     }
 }

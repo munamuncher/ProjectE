@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PoolLabel : MonoBehaviour
 {
+    [SerializeField]
     protected ObjectPool mainPool;
 
     public virtual void Create(ObjectPool pool)
@@ -14,6 +15,10 @@ public class PoolLabel : MonoBehaviour
 
     public virtual void Push()
     {
+        if(mainPool == null)
+        {
+            Debug.Log("Mainpool is null");
+        }
         mainPool.Push(this);
     }
 }

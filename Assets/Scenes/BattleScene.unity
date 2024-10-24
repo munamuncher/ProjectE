@@ -546,6 +546,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 519420032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &825314343
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 825314345}
+  - component: {fileID: 825314344}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &825314344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825314343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dad8d0c43318a2c4f873734e3d916b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StageCounter: 0
+--- !u!4 &825314345
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825314343}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.5530248, y: 2.6085129, z: -0.104187846}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1020182050
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,7 +682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbdb945cce2d3524fafed40e6a30340e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetLabel: {fileID: 1942124512545043492, guid: 77be1b8f1402d744cb067e39258fcedc, type: 3}
+  targetLabel: {fileID: 0}
   allocateCount: 30
 --- !u!4 &1212736500
 Transform:
@@ -756,7 +801,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1438864363}
-  - component: {fileID: 1438864362}
   - component: {fileID: 1438864364}
   m_Layer: 0
   m_Name: MonsterManager
@@ -765,18 +809,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1438864362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438864361}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07fd4134bdfdcfb4e81e7f71f75bde9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1438864363
 Transform:
   m_ObjectHideFlags: 0
@@ -1098,9 +1130,10 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 7300141261862675999}
   - {fileID: 1584189071}
-  - {fileID: 1426425291}
   - {fileID: 601374159}
   - {fileID: 1324236635}
   - {fileID: 1212736500}
   - {fileID: 249417637}
   - {fileID: 1438864363}
+  - {fileID: 825314345}
+  - {fileID: 1426425291}

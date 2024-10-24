@@ -430,7 +430,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6756472823572108190}
   - component: {fileID: 2754265734362274458}
-  - component: {fileID: -7665743895542376348}
   - component: {fileID: 32096366945219974}
   - component: {fileID: 2389689788949757869}
   - component: {fileID: 2053322395396556891}
@@ -482,18 +481,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-7665743895542376348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6756472823572108189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b3fe3990d3beae4eacd0777c5655501, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &32096366945219974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,6 +493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8068a2b861f2144f8fef57317cb75a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainPool: {fileID: 0}
   health: 0
   armor: 0
   damage: 0

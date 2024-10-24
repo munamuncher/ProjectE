@@ -22,7 +22,7 @@ public class MonsterSpawner : MonoBehaviour
             moninst = this;
             DontDestroyOnLoad(gameObject);
         }
-
+        poolManager = PoolManager.pinst;
         CacheMonsterData();
     }
     #endregion
@@ -55,22 +55,16 @@ public class MonsterSpawner : MonoBehaviour
 
     public void SpawnMonster(int MonIndex, int amount)
     {
-        poolManager = PoolManager.pinst;
+     
         for (int i = 0; i < amount; i++)
         {
             if (monDataDictCache.TryGetValue(MonIndex, out MonsterData.MonsterDataStructure data))
             {
-                if (!monsterMainPool.TryGetComponent<IRecivePoolObjects>(out rpo))
-                {
-                    Debug.LogError("IRecivePoolObject 참조 실패 - MonsterSpawner.cs - spawnMonster");
-                }
-                else
-                {
-                    monsterMainPool.ReciveGameObject(data.MonsterPrefab);
-                }
+
                 targetMonster = poolManager.pools[1].Pop();
                 int ran = Random.Range(0, SpawnPos.Length);
-                targetMonster.transform.position = SpawnPos[ran].transform.position;
+                targetMonster.transform.position = SpawnPos[ran].transform.position;   
+                Debug.Log($"Spawning Monster {targetMonster.name}");
                 if (!targetMonster.TryGetComponent<EnemeyController>(out monCon))
                 {
                     Debug.LogError("풀에서 생성된 몬스터에서 EnemyController.cs 참조 실패");
@@ -85,6 +79,23 @@ public class MonsterSpawner : MonoBehaviour
                 Debug.LogError($"Monster data not found for ID: {MonIndex}");
             }
 
+        }
+    }
+
+    public void ReciveMonsterGameObject(int monIndex)
+    {
+        if(monDataDictCache.TryGetValue(monIndex, out MonsterData.MonsterDataStructure data))
+        {
+
+            if (!monsterMainPool.TryGetComponent<IRecivePoolObjects>(out rpo))
+            {
+                Debug.LogError("IRecivePoolObject 참조 실패 - MonsterSpawner.cs - spawnMonster");
+            }
+            else
+            {
+                monsterMainPool.ReciveGameObject(data.MonsterPrefab);       
+                Debug.Log($"Recived {monIndex} so Spawning {data.MonsterPrefab}");
+            }
         }
     }
     
