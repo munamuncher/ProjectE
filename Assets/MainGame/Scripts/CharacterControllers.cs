@@ -8,8 +8,7 @@ public enum PlayerState
     Player_Move,
     Player_Attack,
     Player_UseSkill,
-    Player_Die,
-    Player_Hit
+    Player_Die
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -30,7 +29,7 @@ public class CharacterControllers : MonoBehaviour ,IDamageable
     private SkillManager skillManager;
     private float castingTime = 2f;
 
-    private int Health = 200;
+    private int Health = 1000;
     private int Amrmor = 10;
 
     private void Awake()
@@ -123,10 +122,9 @@ public class CharacterControllers : MonoBehaviour ,IDamageable
                 break;
             case PlayerState.Player_Die:
                 StopAllCoroutines();
+                ccd.enabled = false;
                 animations.PlayAnim("Dead", false);
-                break;
-            case PlayerState.Player_Hit:
-                animations.PlayAnim("Hit", false);
+
                 break;
         }
     }
@@ -224,5 +222,11 @@ public class CharacterControllers : MonoBehaviour ,IDamageable
     {
         Health -= (DamageAmount - Amrmor);
         Debug.Log($"{Health}");
+        animations.PlayAnim("Hit", false);
+        if (Health <= 0)
+        {
+            PlayerController(PlayerState.Player_Die);
+            Debug.Log("player is dead");
+        }
     }
 }

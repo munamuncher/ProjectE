@@ -27,11 +27,16 @@ public class EnemeyController : PoolLabel , IDamageable
     [SerializeField]
     private int damage;
 
+    private EnemyState currentEnemyState;
+
     private Rigidbody2D rbd;
     private CapsuleCollider2D ccd;
+    private SpriteRenderer sr;
     private Animator anim;
     [SerializeField]
     private GameObject Player;
+    [SerializeField]
+    private GameObject body;
 
     private IMoveable moveable;
     private IAnimations animations;
@@ -67,6 +72,13 @@ public class EnemeyController : PoolLabel , IDamageable
         {
             Debug.LogError("IAnimations 참조 실패 - EnemyController.cs - Awake()");
         }
+        if (body != null)
+        {
+            if(!body.TryGetComponent<SpriteRenderer>(out sr))
+            {
+                Debug.LogError("SpriteRenderer 참조 실패 - EnemyController.cs - Awake()");
+            }
+        }
     }
 
     private void OnEnable()
@@ -86,19 +98,43 @@ public class EnemeyController : PoolLabel , IDamageable
     private void MonsterController(EnemyState enemyState)
     {
         Debug.Log(enemyState);
+        currentEnemyState = enemyState;
         switch (enemyState)
         {
             case EnemyState.Idle:
                 animations.PlayAnim("idle", false);
                 break;
             case EnemyState.Attack:
-                animations.PlayAnim("attack", true);
+                StartCoroutine(MonStartAttacking());
                 break;
             case EnemyState.Move:
                 animations.PlayAnim("move", false);
                 break;
             case EnemyState.Hit:
                 break;
+        }
+    }
+
+    private IEnumerator MonStartAttacking()
+    {
+        while (currentEnemyState == EnemyState.Attack)
+        {
+            if (Player != null && Player.gameObject.activeInHierarchy)
+            {
+                var playerDamageable = Player.GetComponent<IDamageable>();
+                if(playerDamageable != null)
+                {
+                    animations.PlayAnim("attack", false);
+                    yield return new WaitForSeconds(1.5f);
+                    playerDamageable.Damage(damage);
+                }
+                else
+                {
+                    Debug.Log($"{Player.gameObject.name} is Dead");
+                    MonsterController(EnemyState.Idle);
+                    yield break;
+                }
+            }
         }
     }
 
@@ -127,22 +163,34 @@ public class EnemeyController : PoolLabel , IDamageable
         {
             Debug.Log("Target lost: " + Player.name);
             Player = null;
-            MonsterController(EnemyState.Move);
+            MonsterController(EnemyState.Idle);
         }
 
     }
-
 
     #endregion    
     public void Damage(int DamageAmount)
     {
         health -= (DamageAmount - armor);
         Debug.Log($"i have Taken {DamageAmount} now {health} is remaining");
+        StartCoroutine(takeDamge());
         if(health <= 0)
         {           
             Debug.Log($"this {gameObject.name} is dead pushing");
+            GameManager.GMInst.DeathNotice();
             Push();
 
+        }
+    }
+
+    private IEnumerator takeDamge()
+    {
+        if(body !=  null && sr != null)
+        {
+            sr.color = Color.red;
+            yield return new WaitForSeconds(0.5f);
+            sr.color = Color.white;
+            yield break;
         }
     }
 }

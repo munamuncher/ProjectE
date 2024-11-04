@@ -50,10 +50,16 @@ public class GameManager : MonoBehaviour
     }
 
     private MonsterSpawner monSpawner;
+    [Header("Game Stage Management")]
     [SerializeField]
-    private int StageCounter = 0;
-    private int MonsterCounter = 5;
+    private int StageCounter;
+    [SerializeField]
+    private int MonsterCounter;
+    [SerializeField]
+    private int currentMonsterCount;
+    [SerializeField]
     private float counter = 5;
+
     private GameState currentGameState = GameState.Start;
 
     public void GameStateController(GameState gameState)
@@ -68,8 +74,16 @@ public class GameManager : MonoBehaviour
             case GameState.StageStart:
                 monSpawner.ReciveMonsterGameObject(StageCounter);
                 monSpawner.SpawnMonster(StageCounter, MonsterCounter);
+                currentMonsterCount = MonsterCounter;
                 break;
             case GameState.StageEnd:
+                StageCounter++;
+                MonsterCounter++;
+                if(MonsterCounter >= 10)
+                {
+                    MonsterCounter = 3;
+                }
+                StartCoroutine(StageTimeController(GameState.StageStart));
                 break;
             case GameState.Pause:
                 break;
@@ -78,9 +92,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void DeathNotice()
+    {
+        currentMonsterCount--;
+        if(currentMonsterCount <= 0)
+        {
+            GameStateController(GameState.StageEnd);
+            Debug.Log("Stage has been cleard Stage end has been sumited and makeing a new stage");
+        }
+    }
+
     IEnumerator StageTimeController(GameState gamestate)
     {
-        while (counter < 0)
+        while (counter >= 0)
         {
             counter -= Time.deltaTime;
             yield return null;

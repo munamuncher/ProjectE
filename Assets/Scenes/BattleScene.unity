@@ -301,8 +301,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.32, y: -1.38, z: -10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.17, y: 2.42, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -575,7 +575,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad8d0c43318a2c4f873734e3d916b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StageCounter: 0
+  StageCounter: 1
+  MonsterCounter: 5
+  currentMonsterCount: 0
+  counter: 5
 --- !u!4 &825314345
 Transform:
   m_ObjectHideFlags: 0

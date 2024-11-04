@@ -162,6 +162,7 @@ MonoBehaviour:
   armor: 0
   damage: 0
   Player: {fileID: 0}
+  body: {fileID: 7387360735462674767}
 --- !u!114 &-3175664840764184240
 MonoBehaviour:
   m_ObjectHideFlags: 0
