@@ -47,6 +47,11 @@ public class GameManager : MonoBehaviour
             monSpawner.SpawnMonster(2, 2);
             monSpawner.ReciveMonsterGameObject(2);
         }
+
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            Inventory.InvenInst.AddItem(itemdata, 20);
+        }
     }
 
     private MonsterSpawner monSpawner;
@@ -59,6 +64,8 @@ public class GameManager : MonoBehaviour
     private int currentMonsterCount;
     [SerializeField]
     private float counter = 5;
+    [SerializeField]
+    private ItemData itemdata;
 
     private GameState currentGameState = GameState.Start;
 

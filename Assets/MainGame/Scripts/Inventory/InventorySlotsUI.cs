@@ -11,6 +11,7 @@ public class InventorySlotsUI : MonoBehaviour
 
     public void SetSlot(ItemData item , int quantity)
     {
+        Debug.LogWarning($"Recived {item.itemName} and quantity of {quantity}");
         if (item != null)
         {
             icon.sprite = item.itemIcon;
@@ -26,7 +27,6 @@ public class InventorySlotsUI : MonoBehaviour
     public void ClearSlot()
     {
         icon.sprite = null;
-        icon.enabled = false;
         itemQuantityText.text = null;
     }
 }

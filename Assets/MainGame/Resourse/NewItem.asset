@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 194dcb64a6b7cde4aaa0f9a8eb49e84f, type: 3}
   m_Name: NewItem
   m_EditorClassIdentifier: 
-  itemName: 
-  itemIcon: {fileID: 0}
-  isStackable: 0
+  itemName: HpPotion
+  itemIcon: {fileID: 21300000, guid: f27b6ac45bf783340ad9ab9fb3f53a39, type: 3}
+  isStackable: 1
   itemtype: 0
