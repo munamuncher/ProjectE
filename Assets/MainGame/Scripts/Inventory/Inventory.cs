@@ -21,58 +21,82 @@ public class Inventory : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        itemCache = new ItemCache();
     }
     #endregion
 
     public event Action onInventoryChanged;
-
+    [SerializeField]
+    private ItemData itemData;
+    private ItemCache itemCache;
     public List<InventorySlot> invenSlots = new List<InventorySlot>();
     public int maxSlots = 120;
 
-    public bool AddItem(ItemData item, int quantity)
-    {       
-        if(invenSlots == null)
+    public bool AddItem(int id, int quantity)
+    {
+        if (invenSlots == null)
         {
             Debug.LogWarning("InvenSlots is missing");
         }
         else
         {
-            Debug.LogWarning($"found the InvenSlots adding the items {item.itemName} and {quantity}");
-        }
-        foreach (var slot in invenSlots)
-        {
-            if (slot.item == item && item.isStackable)
-            {
-                slot.AddItem(quantity);
-                onInventoryChanged?.Invoke();
-                return true;
-            }
-        }
+            ItemData.ItemDataStructure item = itemCache.GetData(id, itemData.itemDataList);
 
-        if(invenSlots.Count < maxSlots)
-        {
-            invenSlots.Add(new InventorySlot(item, quantity));
-            onInventoryChanged?.Invoke();
-            return true;
+            if (item != null)
+            {
+                Debug.LogWarning($"Found the item {item.itemName} and {quantity} quantity");
+                if (item.isStackable)
+                {
+                    foreach (var slot in invenSlots)
+                    {
+                        if (slot.item == item)
+                        {
+                            slot.AddItem(quantity);
+                            onInventoryChanged?.Invoke();
+                            return true;
+                        }
+                    }
+                }
+                if (invenSlots.Count < maxSlots)
+                {
+                    invenSlots.Add(new InventorySlot(item, quantity));
+                    onInventoryChanged?.Invoke();
+                    return true;
+                }
+                else
+                {
+                    Debug.LogWarning("No space in inventory to add the item.");
+                    return false;
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Item with ID {id} not found in the cache.");
+            }
         }
 
         return false;
     }
 
-    public void RemoveItem(ItemData item , int quantity)
+    public void RemoveItem(ItemData.ItemDataStructure item, int quantity)
     {
-        foreach(var slot in invenSlots)
+        List<InventorySlot> slotsToRemove = new List<InventorySlot>();
+        foreach (var slot in invenSlots)
         {
-            if(slot.item == item)
+            if (slot.item == item)
             {
                 slot.RemoveItem(quantity);
-                if(slot.quantity <= 0)
+                if (slot.quantity <= 0)
                 {
-                    invenSlots.Remove(slot);
+                    slotsToRemove.Add(slot);
                 }
                 onInventoryChanged?.Invoke();
                 break;
             }
+        }
+        foreach (var slot in slotsToRemove)
+        {
+            invenSlots.Remove(slot);
         }
     }
 }

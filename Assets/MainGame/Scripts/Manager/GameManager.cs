@@ -50,8 +50,13 @@ public class GameManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.T))
         {
-            Inventory.InvenInst.AddItem(itemdata, 20);
+            Inventory.InvenInst.AddItem(0, 20);
         }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            Inventory.InvenInst.AddItem(1, 1);
+        }
+
     }
 
     private MonsterSpawner monSpawner;
@@ -64,8 +69,6 @@ public class GameManager : MonoBehaviour
     private int currentMonsterCount;
     [SerializeField]
     private float counter = 5;
-    [SerializeField]
-    private ItemData itemdata;
 
     private GameState currentGameState = GameState.Start;
 

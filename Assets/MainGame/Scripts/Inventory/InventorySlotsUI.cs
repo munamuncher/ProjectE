@@ -9,7 +9,7 @@ public class InventorySlotsUI : MonoBehaviour
     public Image icon;
     public TextMeshProUGUI itemQuantityText;
 
-    public void SetSlot(ItemData item , int quantity)
+    public void SetSlot(ItemData.ItemDataStructure item , int quantity)
     {
         Debug.LogWarning($"Recived {item.itemName} and quantity of {quantity}");
         if (item != null)

@@ -23,47 +23,36 @@ public class MonsterSpawner : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         poolManager = PoolManager.pinst;
-        CacheMonsterData();
+        monsterCache = new MonsterCache();
     }
     #endregion
 
     private PoolManager poolManager;
     private EnemeyController monCon;
-    [SerializeField]
-    private GameObject[] SpawnPos;
+
     [SerializeField]
     private MonsterData monData;
+    private MonsterCache monsterCache;
+
+    [Header("MonsterPool and SpawnPos")]
     [SerializeField]
     private ObjectPool monsterMainPool;
+    [SerializeField]
+    private GameObject[] SpawnPos;
 
     private GameObject targetMonster;
     private IRecivePoolObjects rpo;
 
-    private Dictionary<int, MonsterData.MonsterDataStructure> monDataDictCache = new Dictionary<int, MonsterData.MonsterDataStructure>();
-
-    private void CacheMonsterData()
-    {
-        foreach(var data in monData.monsterDataList)
-        {
-            if(!monDataDictCache.ContainsKey(data.id))
-            {
-                monDataDictCache.Add(data.id, data);
-            }
-        }
-    }
-
-
     public void SpawnMonster(int MonIndex, int amount)
     {
-     
         for (int i = 0; i < amount; i++)
         {
-            if (monDataDictCache.TryGetValue(MonIndex, out MonsterData.MonsterDataStructure data))
+            MonsterData.MonsterDataStructure data = monsterCache.GetData(MonIndex, monData.monsterDataList);
+            if (data != null)
             {
-
                 targetMonster = poolManager.pools[1].Pop();
                 int ran = Random.Range(0, SpawnPos.Length);
-                targetMonster.transform.position = SpawnPos[ran].transform.position;   
+                targetMonster.transform.position = SpawnPos[ran].transform.position;
                 Debug.Log($"Spawning Monster {targetMonster.name}");
                 if (!targetMonster.TryGetComponent<EnemeyController>(out monCon))
                 {
@@ -78,25 +67,29 @@ public class MonsterSpawner : MonoBehaviour
             {
                 Debug.LogError($"Monster data not found for ID: {MonIndex}");
             }
-
         }
     }
 
+
     public void ReciveMonsterGameObject(int monIndex)
     {
-        if(monDataDictCache.TryGetValue(monIndex, out MonsterData.MonsterDataStructure data))
+        MonsterData.MonsterDataStructure data = monsterCache.GetData(monIndex, monData.monsterDataList);
+        if (data != null)
         {
-
             if (!monsterMainPool.TryGetComponent<IRecivePoolObjects>(out rpo))
             {
                 Debug.LogError("IRecivePoolObject 참조 실패 - MonsterSpawner.cs - spawnMonster");
             }
             else
             {
-                monsterMainPool.ReciveGameObject(data.MonsterPrefab);       
+                monsterMainPool.ReciveGameObject(data.MonsterPrefab);
                 Debug.Log($"Recived {monIndex} so Spawning {data.MonsterPrefab}");
             }
         }
+        else
+        {
+            Debug.LogError($"Monster data not found for ID: {monIndex}");
+        }
     }
-    
+
 }

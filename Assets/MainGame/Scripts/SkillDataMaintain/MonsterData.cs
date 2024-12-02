@@ -50,9 +50,9 @@ public class MonsterData : ScriptableObject
 
     public MonsterDataStructure GetSkill(int id)
     {
-        if (MonsterDataDictionary.TryGetValue(id, out var skill))
+        if (MonsterDataDictionary.TryGetValue(id, out var monster))
         {
-            return skill;
+            return monster;
         }
         Debug.LogWarning($"Skill not found: {id}");
         return null;

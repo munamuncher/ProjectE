@@ -29,6 +29,7 @@ public class SkillManager : MonoBehaviour
             skillinst = this;
             DontDestroyOnLoad(gameObject);
         }
+        spellCache = new SpellCache();
     }
     #endregion
 
@@ -42,28 +43,13 @@ public class SkillManager : MonoBehaviour
     public GameObject castingPoint;
     private IChangeSkill changeSkill;
     private ISkillMove skillMove;
-
-    private int currentMana = 1000;
-
-    private Dictionary<int, SkillData.SkillDataStructure> skillDataCache = new Dictionary<int, SkillData.SkillDataStructure>();
-
+    private SpellCache spellCache;
+    private int currentMana = 1000; 
     private void Start()
     {
         skillList = new List<Skill> { new FireBall(), new Thunder(), new ShockWave() };
-        CacheSkillData();
     }
 
-    private void CacheSkillData()
-    {
-        foreach (var data in skillData.skillDataList)
-        {
-            if (!skillDataCache.ContainsKey(data.id))
-            {
-                skillDataCache[data.id] = data;
-                Debug.Log($"Skill data for ID {data.id} cached.");
-            }
-        }
-    }
 
     private void Update()
     {
@@ -103,16 +89,15 @@ public class SkillManager : MonoBehaviour
                     return;
                 }
                 SendDirection(spell);
-                if (skillDataCache.TryGetValue(index, out var data))
+                var data = spellCache.GetData(index, skillData.skillDataList);
+                if (data != null)
                 {
-                    ApplySkillData(data);
+                    ApplySkillData(data); 
                 }
                 else
                 {
-                    Debug.LogError($"Skill data for ID {index} not found in cache.");
-                    return;
+                    Debug.LogWarning($"Skill data for ID: {index} not found.");
                 }
-
                 spell.transform.position = castingPoint.transform.position;
 
                 currentSkill.UseMana(currentMana);

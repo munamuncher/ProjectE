@@ -1949,7 +1949,6 @@ MonoBehaviour:
   MonsterCounter: 5
   currentMonsterCount: 0
   counter: 5
-  itemdata: {fileID: 11400000, guid: 2a570dde1ade3154a9ccc0039c013289, type: 2}
 --- !u!4 &825314345
 Transform:
   m_ObjectHideFlags: 0
@@ -3348,6 +3347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f322c20086dcd42abc285a61eae312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monData: {fileID: 11400000, guid: 95fdc46629cd02a4c9f0e80f2168a7e9, type: 2}
+  monsterMainPool: {fileID: 1212736499}
   SpawnPos:
   - {fileID: 1794334099}
   - {fileID: 1464528181}
@@ -3357,8 +3358,6 @@ MonoBehaviour:
   - {fileID: 1020182050}
   - {fileID: 2100016436}
   - {fileID: 765621925}
-  monData: {fileID: 11400000, guid: 95fdc46629cd02a4c9f0e80f2168a7e9, type: 2}
-  monsterMainPool: {fileID: 1212736499}
 --- !u!1 &1464528181
 GameObject:
   m_ObjectHideFlags: 0
@@ -3910,6 +3909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 808ca1d5f23531d4fa4428c454f8b747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemData: {fileID: 11400000, guid: b6b0d74535689454fbe1b72dd48268ed, type: 2}
   invenSlots: []
   maxSlots: 120
 --- !u!4 &1937365298

@@ -5,10 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class InventorySlot
 {
-    public ItemData item;
+    public ItemData.ItemDataStructure item;
     public int quantity;
 
-    public InventorySlot(ItemData item, int quantity)
+    public InventorySlot(ItemData.ItemDataStructure item, int quantity)
     {
         this.item = item;
         this.quantity = quantity;
@@ -26,6 +26,10 @@ public class InventorySlot
         {
             ClearSlot();
         }    
+    }
+    public ItemData.ItemDataStructure GetItem(int id)
+    {
+        return item.ItemID == id ? item : null;
     }
     public void ClearSlot()
     {
