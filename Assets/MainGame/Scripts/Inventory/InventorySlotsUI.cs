@@ -17,6 +17,10 @@ public class InventorySlotsUI : MonoBehaviour
             icon.sprite = item.itemIcon;
             icon.enabled = true;
             itemQuantityText.text = item.isStackable ? quantity.ToString() : "";
+            if(itemQuantityText.text == "0")
+            {
+                ClearSlot();
+            }
         }
         else
         {

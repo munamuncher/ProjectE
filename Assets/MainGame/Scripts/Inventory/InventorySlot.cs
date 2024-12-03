@@ -11,26 +11,26 @@ public class InventorySlot
     public InventorySlot(ItemData.ItemDataStructure item, int quantity)
     {
         this.item = item;
-        this.quantity = quantity;
+        this.quantity = Mathf.Min(quantity , item.maxQuantity);
     }
 
-    public void AddItem(int amount)
+    public int AddItem(int amount)
     {
-        quantity += amount;
+        int remianingSpace = item.maxQuantity - quantity;
+        int addedQuantity = Mathf.Min(remianingSpace, amount);
+        quantity += addedQuantity;
+        return amount - addedQuantity;
     }
 
     public void RemoveItem(int amount)
-    {
+    {  
         quantity -= amount;
         if (quantity < 0)
         {
             ClearSlot();
         }    
     }
-    public ItemData.ItemDataStructure GetItem(int id)
-    {
-        return item.ItemID == id ? item : null;
-    }
+
     public void ClearSlot()
     {
         item = null;

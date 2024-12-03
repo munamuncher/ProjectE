@@ -38,60 +38,63 @@ public class Inventory : MonoBehaviour
         {
             Debug.LogWarning("InvenSlots is missing");
         }
-        else
-        {
-            ItemData.ItemDataStructure item = itemCache.GetData(id, itemData.itemDataList);
 
-            if (item != null)
+        ItemData.ItemDataStructure item = itemCache.GetData(id, itemData.itemDataList);
+
+        if (item == null)
+        {
+            Debug.LogWarning($"Item with ID {id} not found in the cache.");
+            return false;
+        }
+
+        Debug.LogWarning($"Found the item {item.itemName} and {quantity} quantity");
+        if (item.isStackable)
+        {
+            foreach (var slot in invenSlots)
             {
-                Debug.LogWarning($"Found the item {item.itemName} and {quantity} quantity");
-                if (item.isStackable)
+                if (slot.item == item) 
                 {
-                    foreach (var slot in invenSlots)
+                    quantity = slot.AddItem(quantity);
+
+                    if (quantity <= 0)
                     {
-                        if (slot.item == item)
-                        {
-                            slot.AddItem(quantity);
-                            onInventoryChanged?.Invoke();
-                            return true;
-                        }
+                        onInventoryChanged?.Invoke();
+                        return true;
                     }
                 }
-                if (invenSlots.Count < maxSlots)
-                {
-                    invenSlots.Add(new InventorySlot(item, quantity));
-                    onInventoryChanged?.Invoke();
-                    return true;
-                }
-                else
-                {
-                    Debug.LogWarning("No space in inventory to add the item.");
-                    return false;
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"Item with ID {id} not found in the cache.");
             }
         }
 
-        return false;
+        while (quantity > 0 && invenSlots.Count < maxSlots)
+        {
+            int amountToAdd = Mathf.Min(quantity, item.maxQuantity);
+            invenSlots.Add(new InventorySlot(item, amountToAdd));
+            quantity -= amountToAdd;
+        }
+        if (quantity > 0)
+        {
+            Debug.LogWarning("No space in inventory to add the remaining items.");
+            return false;
+        }
+        onInventoryChanged?.Invoke();
+        return true;
     }
 
-    public void RemoveItem(ItemData.ItemDataStructure item, int quantity)
+    public void RemoveItem(int id , int quantity)
     {
+        ItemData.ItemDataStructure item = itemCache.GetData(id, itemData.itemDataList);
         List<InventorySlot> slotsToRemove = new List<InventorySlot>();
-        foreach (var slot in invenSlots)
+        for(int i = invenSlots.Count -1; i >= 0;i--)
         {
-            if (slot.item == item)
+            var slots = invenSlots[i];
+            if(slots.item == item)
             {
-                slot.RemoveItem(quantity);
-                if (slot.quantity <= 0)
+                slots.RemoveItem(quantity); 
+                if (slots.quantity <= 0)
                 {
-                    slotsToRemove.Add(slot);
+                    slotsToRemove.Add(slots);
                 }
-                onInventoryChanged?.Invoke();
-                break;
+                onInventoryChanged.Invoke();
             }
         }
         foreach (var slot in slotsToRemove)

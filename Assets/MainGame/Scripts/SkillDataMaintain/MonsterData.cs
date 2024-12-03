@@ -37,7 +37,7 @@ public class MonsterData : ScriptableObject
         }
     }
 
-    [System.Serializable]
+    [System.Serializable] 
     public class MonsterDataStructure
     {
         public int id;
