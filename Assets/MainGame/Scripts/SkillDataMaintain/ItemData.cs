@@ -53,6 +53,7 @@ public class ItemData : ScriptableObject
         public Sprite itemIcon;
         public bool isStackable;
         public int maxQuantity;
+        public int effectOfPotion;
         public ItemType itemtype;
 
     }

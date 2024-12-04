@@ -22,13 +22,22 @@ public class Inventory : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         itemCache = new ItemCache();
+
+        ipotions = player.GetComponent<Ipotions>();
+        if(ipotions == null)
+        {
+            Debug.LogWarning("Ipotion 참조 실패 - Inventory.cs - Awake()");
+        }
     }
     #endregion
 
     public event Action onInventoryChanged;
     [SerializeField]
+    private GameObject player;
+    [SerializeField]
     private ItemData itemData;
     private ItemCache itemCache;
+    private Ipotions ipotions;
     public List<InventorySlot> invenSlots = new List<InventorySlot>();
     public int maxSlots = 120;
 
@@ -80,26 +89,59 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
+    public void UseItem(int id, int quantity) //add amount in the resourse section , suggestion on if i should use switch function and instead of if?
+    {
+        ItemData.ItemDataStructure item = itemCache.GetData(id, itemData.itemDataList);
+
+        if (item != null && item.itemtype == ItemType.Consumable)
+        {
+            PotionScript potion = new PotionScript();
+            potion.UseItem(ipotions, item.effectOfPotion);
+            RemoveItem(id, quantity);
+        }
+        else
+        {
+            Debug.LogWarning("Item is not a potion or could not be found.");
+        }
+    }
+
     public void RemoveItem(int id , int quantity)
     {
         ItemData.ItemDataStructure item = itemCache.GetData(id, itemData.itemDataList);
-        List<InventorySlot> slotsToRemove = new List<InventorySlot>();
-        for(int i = invenSlots.Count -1; i >= 0;i--)
+
+        if(item == null)
         {
-            var slots = invenSlots[i];
-            if(slots.item == item)
+            Debug.LogWarning($"item with {id} id can not be found");
+            return;
+        }
+
+        for(int i =invenSlots.Count -1; i >=0 && quantity > 0;i--)
+        {
+            var slot = invenSlots[i];
+            if (slot.item == item)
             {
-                slots.RemoveItem(quantity); 
-                if (slots.quantity <= 0)
+                if(slot.quantity >= quantity)
                 {
-                    slotsToRemove.Add(slots);
+                    slot.RemoveItem(quantity);
+                    quantity = 0;
                 }
-                onInventoryChanged.Invoke();
+                else
+                {
+                    quantity -= slot.quantity;
+                    slot.RemoveItem(quantity);
+                }
+
+                if(slot.quantity <= 0)
+                {
+                    invenSlots.RemoveAt(i);
+                }
             }
         }
-        foreach (var slot in slotsToRemove)
+
+        if (quantity > 0)
         {
-            invenSlots.Remove(slot);
+            Debug.LogWarning($"Not enough items to remove. {quantity} remaining.");
         }
+        onInventoryChanged?.Invoke();
     }
 }

@@ -64,5 +64,10 @@ public interface IRecivePoolObjects
     void ReciveGameObject(GameObject Objects);
 }
 
+public interface Ipotions
+{
+    void PotionEffect(int amount);
+}
+
 
 

@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Inventory.InvenInst.RemoveItem(1, 10);
+            Inventory.InvenInst.UseItem(0, 1);
         }
 
     }

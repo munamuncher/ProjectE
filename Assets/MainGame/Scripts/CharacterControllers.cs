@@ -13,7 +13,7 @@ public enum PlayerState
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-public class CharacterControllers : MonoBehaviour ,IDamageable
+public class CharacterControllers : MonoBehaviour ,IDamageable , Ipotions
 {
 
     private Rigidbody2D rgb;
@@ -28,8 +28,9 @@ public class CharacterControllers : MonoBehaviour ,IDamageable
   
     private SkillManager skillManager;
     private float castingTime = 2f;
-
-    private int Health = 1000;
+    [SerializeField]
+    private int health = 900;
+    private int maxHealth = 1000;
     private int Amrmor = 10;
 
     private void Awake()
@@ -41,7 +42,7 @@ public class CharacterControllers : MonoBehaviour ,IDamageable
         else
         {
             rgb.simulated = true;
-            rgb.gravityScale = 0f;
+            rgb.gravityScale = 0f; 
         }
         if (!TryGetComponent<CapsuleCollider2D>(out ccd))
         {
@@ -142,6 +143,8 @@ public class CharacterControllers : MonoBehaviour ,IDamageable
         CheckDeadOrAlive();
     }
     #endregion
+
+    #region _AttackSystem_
     private IEnumerator StartAttacking()
     {
         while (currentState == PlayerState.Player_Attack)
@@ -217,16 +220,23 @@ public class CharacterControllers : MonoBehaviour ,IDamageable
             Debug.Log($"{target} is not in range");
         }
     }
+    #endregion
 
     public void Damage(int DamageAmount)
     {
-        Health -= (DamageAmount - Amrmor);
-        Debug.Log($"{Health}");
+        health -= (DamageAmount - Amrmor);
+        Debug.Log($"{health}");
         animations.PlayAnim("Hit", false);
-        if (Health <= 0)
+        if (health <= 0)
         {
             PlayerController(PlayerState.Player_Die);
             Debug.Log("player is dead");
         }
     }
+
+    public void PotionEffect(int amount)
+    {
+        health = Mathf.Min(health + amount,maxHealth);
+        Debug.Log($"healing {amount}");
+    }    
 }
