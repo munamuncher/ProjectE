@@ -43,28 +43,16 @@ public class Inventory : MonoBehaviour
 
     public bool AddItem(int id, int quantity)
     {
-        if (invenSlots == null)
-        {
-            Debug.LogWarning("InvenSlots is missing");
-        }
+        var item = GetItemFromData(id);
+        if (item == null) return false;
 
-        ItemData.ItemDataStructure item = itemCache.GetData(id, itemData.itemDataList);
-
-        if (item == null)
-        {
-            Debug.LogWarning($"Item with ID {id} not found in the cache.");
-            return false;
-        }
-
-        Debug.LogWarning($"Found the item {item.itemName} and {quantity} quantity");
         if (item.isStackable)
         {
             foreach (var slot in invenSlots)
             {
-                if (slot.item == item) 
+                if (slot.item == item)
                 {
                     quantity = slot.AddItem(quantity);
-
                     if (quantity <= 0)
                     {
                         onInventoryChanged?.Invoke();
@@ -73,7 +61,6 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
-
         while (quantity > 0 && invenSlots.Count < maxSlots)
         {
             int amountToAdd = Mathf.Min(quantity, item.maxQuantity);
@@ -91,25 +78,47 @@ public class Inventory : MonoBehaviour
 
     public void UseItem(int id, int quantity) //add amount in the resourse section , suggestion on if i should use switch function and instead of if?
     {
-        ItemData.ItemDataStructure item = itemCache.GetData(id, itemData.itemDataList);
+        var item = GetItemFromData(id);
+        if (item == null)
+        {
+            Debug.LogWarning($"Item with ID {id} not found.");
+            return;
+        }
 
-        if (item != null && item.itemtype == ItemType.Consumable)
+        switch (item.itemtype)
+        {
+            case ItemType.Consumable:
+                UseConsumable(item, quantity);
+                break;
+
+            case ItemType.Equipment:
+                Debug.Log("Equipment items cannot be used directly.");
+                break;
+
+            default:
+                Debug.LogWarning("Unknown item type.");
+                break;
+        }
+    }
+
+    private void UseConsumable(ItemData.ItemDataStructure item, int quantity)
+    {
+        if (item is ItemData.ConsumableItem consumableItem)
         {
             PotionScript potion = new PotionScript();
-            potion.UseItem(ipotions, item.effectOfPotion);
-            RemoveItem(id, quantity);
+            potion.UseItem(ipotions, consumableItem.effectOfPotion);
+            RemoveItem(item.ItemID, quantity);
         }
         else
         {
-            Debug.LogWarning("Item is not a potion or could not be found.");
+            Debug.LogWarning("Item is not a valid consumable.");
         }
     }
 
     public void RemoveItem(int id , int quantity)
     {
-        ItemData.ItemDataStructure item = itemCache.GetData(id, itemData.itemDataList);
-
-        if(item == null)
+        var item = GetItemFromData(id);
+        if (item == null)
         {
             Debug.LogWarning($"item with {id} id can not be found");
             return;
@@ -143,5 +152,22 @@ public class Inventory : MonoBehaviour
             Debug.LogWarning($"Not enough items to remove. {quantity} remaining.");
         }
         onInventoryChanged?.Invoke();
+    }
+
+    private ItemData.ItemDataStructure GetItemFromData(int id)
+    {
+        if(itemData ==  null || itemData.ItemDataDictionary ==  null)
+        {
+            Debug.LogWarning("ItemData or ItemDictionary is not initialized correctly");
+            return null;
+        }
+
+        if(itemData.ItemDataDictionary.TryGetValue(id , out var item))
+        {
+            return item;
+        }
+
+        Debug.LogWarning($"item with Id{id} not found int ItemDataDictionary");
+        return null;
     }
 }

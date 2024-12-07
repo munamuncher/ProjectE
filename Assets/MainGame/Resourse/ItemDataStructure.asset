@@ -12,60 +12,147 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 194dcb64a6b7cde4aaa0f9a8eb49e84f, type: 3}
   m_Name: ItemDataStructure
   m_EditorClassIdentifier: 
-  itemDataList:
+  ConsumableItems:
   - ItemID: 0
-    itemName: Hp Potion
+    itemName: Mini_Hp_Potion
     itemIcon: {fileID: 21300000, guid: 117b17facff65dc42b1b57deb7c21551, type: 3}
     isStackable: 1
     maxQuantity: 30
-    effectOfPotion: 50
     itemtype: 0
+    effectOfPotion: 50
   - ItemID: 1
-    itemName: Mana Potion
-    itemIcon: {fileID: 21300000, guid: b7f77607c82ea4142a2070c0e37e1756, type: 3}
-    isStackable: 1
-    maxQuantity: 30
-    effectOfPotion: 50
-    itemtype: 0
-  - ItemID: 2
-    itemName: Invic Crystal
-    itemIcon: {fileID: 21300000, guid: f27b6ac45bf783340ad9ab9fb3f53a39, type: 3}
-    isStackable: 0
-    maxQuantity: 0
-    effectOfPotion: 0
-    itemtype: 0
-  - ItemID: 3
-    itemName: Ember Shard of Fortune
-    itemIcon: {fileID: 21300000, guid: 6b3336592bcf2134abb33fc57225674a, type: 3}
-    isStackable: 0
-    maxQuantity: 0
-    effectOfPotion: 0
-    itemtype: 0
-  - ItemID: 4
-    itemName: Aetheric Sapphire
-    itemIcon: {fileID: 21300000, guid: 8f6c4004b346a6a41bedc9623425dbd3, type: 3}
-    isStackable: 0
-    maxQuantity: 0
-    effectOfPotion: 0
-    itemtype: 0
-  - ItemID: 5
-    itemName: Aetheric Sapphire
-    itemIcon: {fileID: 21300000, guid: 8f6c4004b346a6a41bedc9623425dbd3, type: 3}
-    isStackable: 0
-    maxQuantity: 0
-    effectOfPotion: 0
-    itemtype: 0
-  - ItemID: 6
-    itemName: Elixir of Vitalis
+    itemName: Advance_Hp_Potion
     itemIcon: {fileID: 21300000, guid: 44dc65116207f4b46aa85443dae5ad96, type: 3}
     isStackable: 1
     maxQuantity: 30
-    effectOfPotion: 0
     itemtype: 0
-  - ItemID: 7
-    itemName: Mana Draught
-    itemIcon: {fileID: 21300000, guid: 2d7d9ae02b7159843ac7d5ead0f8b89a, type: 3}
+    effectOfPotion: 150
+  - ItemID: 2
+    itemName: Heavenly_Nector
+    itemIcon: {fileID: 21300000, guid: 7b3876a2b72c44540a4bbd5aaba9e506, type: 3}
     isStackable: 1
     maxQuantity: 30
-    effectOfPotion: 0
     itemtype: 0
+    effectOfPotion: 300
+  - ItemID: 3
+    itemName: Mini_Mana_Potion
+    itemIcon: {fileID: 21300000, guid: 7b3876a2b72c44540a4bbd5aaba9e506, type: 3}
+    isStackable: 1
+    maxQuantity: 30
+    itemtype: 0
+    effectOfPotion: 30
+  - ItemID: 4
+    itemName: Advance _Mana_Potion
+    itemIcon: {fileID: 21300000, guid: 7b3876a2b72c44540a4bbd5aaba9e506, type: 3}
+    isStackable: 1
+    maxQuantity: 30
+    itemtype: 0
+    effectOfPotion: 60
+  - ItemID: 5
+    itemName: Advance _Mana_Potion
+    itemIcon: {fileID: 21300000, guid: 7b3876a2b72c44540a4bbd5aaba9e506, type: 3}
+    isStackable: 1
+    maxQuantity: 30
+    itemtype: 0
+    effectOfPotion: 180
+  EquipmentItems:
+  - ItemID: 101
+    itemName: Frost_Blade
+    itemIcon: {fileID: 207245230828507748, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}
+    isStackable: 0
+    maxQuantity: 1
+    itemtype: 1
+    meleePowerIncrease: 30
+    magicPowerIncrease: 10
+    adIncrease: 0
+    mdIncerease: 0
+  - ItemID: 102
+    itemName: Glacier_Edge
+    itemIcon: {fileID: -4375368743273336856, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}
+    isStackable: 0
+    maxQuantity: 1
+    itemtype: 1
+    meleePowerIncrease: 60
+    magicPowerIncrease: 5
+    adIncrease: 0
+    mdIncerease: 0
+  - ItemID: 103
+    itemName: CryoHeart_Saber
+    itemIcon: {fileID: 5015358457507566362, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}
+    isStackable: 0
+    maxQuantity: 1
+    itemtype: 1
+    meleePowerIncrease: 30
+    magicPowerIncrease: 20
+    adIncrease: 0
+    mdIncerease: 0
+  - ItemID: 104
+    itemName: Steelshadow_Blade
+    itemIcon: {fileID: 6122631255014080264, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}
+    isStackable: 0
+    maxQuantity: 1
+    itemtype: 1
+    meleePowerIncrease: 120
+    magicPowerIncrease: 0
+    adIncrease: 0
+    mdIncerease: 0
+  - ItemID: 105
+    itemName: Kingsbane_Sword
+    itemIcon: {fileID: 4288251886331194031, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}
+    isStackable: 0
+    maxQuantity: 1
+    itemtype: 1
+    meleePowerIncrease: 150
+    magicPowerIncrease: 0
+    adIncrease: 0
+    mdIncerease: 0
+  - ItemID: 106
+    itemName: IronFang_LongSword
+    itemIcon: {fileID: 8098540543117055558, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}
+    isStackable: 0
+    maxQuantity: 1
+    itemtype: 1
+    meleePowerIncrease: 200
+    magicPowerIncrease: 0
+    adIncrease: 0
+    mdIncerease: 0
+  - ItemID: 107
+    itemName: Strompiercer
+    itemIcon: {fileID: -6311388484217932772, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}
+    isStackable: 0
+    maxQuantity: 1
+    itemtype: 1
+    meleePowerIncrease: 100
+    magicPowerIncrease: 60
+    adIncrease: 0
+    mdIncerease: 0
+  - ItemID: 108
+    itemName: Voltspire_LongSword
+    itemIcon: {fileID: -530187711458370557, guid: 5086f7f9cf02c27478fdeda4cd78894a, type: 3}
+    isStackable: 0
+    maxQuantity: 1
+    itemtype: 1
+    meleePowerIncrease: 210
+    magicPowerIncrease: 10
+    adIncrease: 0
+    mdIncerease: 0
+  - ItemID: 109
+    itemName: Doomshard
+    itemIcon: {fileID: 4461641334166435632, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}
+    isStackable: 0
+    maxQuantity: 1
+    itemtype: 1
+    meleePowerIncrease: 110
+    magicPowerIncrease: 200
+    adIncrease: 0
+    mdIncerease: 0
+  - ItemID: 110
+    itemName: Ebonveil_Scytheblade
+    itemIcon: {fileID: -4887393551118285822, guid: 545f9c74323fe914c829180b85afb1b7, type: 3}
+    isStackable: 0
+    maxQuantity: 1
+    itemtype: 1
+    meleePowerIncrease: 100
+    magicPowerIncrease: 250
+    adIncrease: 0
+    mdIncerease: 0

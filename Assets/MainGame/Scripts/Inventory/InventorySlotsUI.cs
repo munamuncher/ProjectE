@@ -8,7 +8,7 @@ public class InventorySlotsUI : MonoBehaviour
 {
     public Image icon;
     public TextMeshProUGUI itemQuantityText;
-
+    public Sprite defultImage;
     public void SetSlot(ItemData.ItemDataStructure item , int quantity)
     {
         Debug.LogWarning($"Recived {item.itemName} and quantity of {quantity}");
@@ -30,7 +30,7 @@ public class InventorySlotsUI : MonoBehaviour
 
     public void ClearSlot()
     {
-        icon.sprite = null;
+        icon.sprite = defultImage;
         itemQuantityText.text = null;
     }
 }

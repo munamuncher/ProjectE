@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum ItemType
@@ -12,7 +13,8 @@ public enum ItemType
 [CreateAssetMenu(fileName = "NewItem",menuName = "Inventory/Item")]
 public class ItemData : ScriptableObject
 {
-    public List<ItemDataStructure> itemDataList = new List<ItemDataStructure>();
+    public List<ConsumableItem> ConsumableItems = new List<ConsumableItem>();
+    public List<EquipmentItem> EquipmentItems = new List<EquipmentItem>();
 
     public Dictionary<int, ItemDataStructure> ItemDataDictionary;
 
@@ -25,11 +27,10 @@ public class ItemData : ScriptableObject
     {
         ItemDataDictionary = new Dictionary<int, ItemDataStructure>();
 
-        foreach (var item in itemDataList)
+        foreach (var item in ConsumableItems)
         {
             if(item == null)
             {
-                Debug.LogWarning("Currently there is no item in the List");
                 continue;
             }
 
@@ -42,6 +43,37 @@ public class ItemData : ScriptableObject
                 Debug.LogError($"Duplication Item ID Found: {item.itemName}. Skipping the Item");
             }
         }
+
+        foreach (var item in EquipmentItems)
+        {
+            if (item == null)
+            {
+                continue;
+            }
+
+            if (!ItemDataDictionary.ContainsKey(item.ItemID))
+            {
+                ItemDataDictionary.Add(item.ItemID, item);
+            }
+            else
+            {
+                Debug.LogError($"Duplication Item ID Found: {item.itemName}. Skipping the Item");
+            }
+        }
+    }
+
+    public ItemDataStructure GetItem(int id, ItemType type)
+    {
+        switch (type)
+        {
+            case ItemType.Consumable:
+                return ConsumableItems.Find(item => item.ItemID == id);
+            case ItemType.Equipment:
+                return EquipmentItems.Find(item => item.ItemID == id);
+            default:
+                Debug.LogWarning("Unknown item type");
+                return null;
+        }
     }
 
 
@@ -53,19 +85,24 @@ public class ItemData : ScriptableObject
         public Sprite itemIcon;
         public bool isStackable;
         public int maxQuantity;
-        public int effectOfPotion;
         public ItemType itemtype;
 
     }
-
-    public ItemDataStructure GetItem(int id)
-    {
-        if (ItemDataDictionary.TryGetValue(id, out var item))
-        {
-            return item;
-        }
-        Debug.LogWarning($"Item not found {id}");
-        return null;
+    [System.Serializable]
+    public class ConsumableItem : ItemData.ItemDataStructure
+    {       
+        public int effectOfPotion;
     }
+    [System.Serializable]
+    public class EquipmentItem : ItemData.ItemDataStructure
+    {
+        [Header("Weapon")]
+        public int meleePowerIncrease;
+        public int magicPowerIncrease;
+        [Header("Amour")]
+        public int adIncrease;
+        public int mdIncerease;
 
+
+    }
 }
