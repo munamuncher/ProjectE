@@ -41,6 +41,7 @@ public class Inventory : MonoBehaviour
     public List<InventorySlot> invenSlots = new List<InventorySlot>();
     public int maxSlots = 120;
 
+    #region _Inventory_Function_
     public bool AddItem(int id, int quantity)
     {
         var item = GetItemFromData(id);
@@ -101,19 +102,6 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void UseConsumable(ItemData.ItemDataStructure item, int quantity)
-    {
-        if (item is ItemData.ConsumableItem consumableItem)
-        {
-            PotionScript potion = new PotionScript();
-            potion.UseItem(ipotions, consumableItem.effectOfPotion);
-            RemoveItem(item.ItemID, quantity);
-        }
-        else
-        {
-            Debug.LogWarning("Item is not a valid consumable.");
-        }
-    }
 
     public void RemoveItem(int id , int quantity)
     {
@@ -169,5 +157,24 @@ public class Inventory : MonoBehaviour
 
         Debug.LogWarning($"item with Id{id} not found int ItemDataDictionary");
         return null;
+    }
+    #endregion
+    private void UseConsumable(ItemData.ItemDataStructure item, int quantity)
+    {
+        if (item is ItemData.ConsumableItem consumableItem)
+        {
+            PotionScript potion = new PotionScript();
+            potion.UseItem(ipotions, consumableItem.effectOfPotion);
+            RemoveItem(item.ItemID, quantity);
+        }
+        else
+        {
+            Debug.LogWarning("Item is not a valid consumable.");
+        }
+    }
+
+    private void Equiptable(ItemData.ItemDataStructure item, int quantity)
+    {
+
     }
 }

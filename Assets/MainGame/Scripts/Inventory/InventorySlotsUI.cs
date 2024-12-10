@@ -9,6 +9,7 @@ public class InventorySlotsUI : MonoBehaviour
     public Image icon;
     public TextMeshProUGUI itemQuantityText;
     public Sprite defultImage;
+    private int currentNumb = 0;
     public void SetSlot(ItemData.ItemDataStructure item , int quantity)
     {
         Debug.LogWarning($"Recived {item.itemName} and quantity of {quantity}");
@@ -16,8 +17,9 @@ public class InventorySlotsUI : MonoBehaviour
         {
             icon.sprite = item.itemIcon;
             icon.enabled = true;
-            itemQuantityText.text = item.isStackable ? quantity.ToString() : "";
-            if(itemQuantityText.text == "0")
+            currentNumb = item.isStackable ? quantity : 1;
+            itemQuantityText.text = currentNumb.ToString();
+            if(currentNumb >= 0)
             {
                 ClearSlot();
             }
@@ -31,6 +33,6 @@ public class InventorySlotsUI : MonoBehaviour
     public void ClearSlot()
     {
         icon.sprite = defultImage;
-        itemQuantityText.text = null;
+        itemQuantityText.text = "";
     }
 }
