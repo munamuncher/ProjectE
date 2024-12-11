@@ -69,9 +69,9 @@ public interface Ipotions
     void PotionEffect(int amount);
 }
 
-public interface Iequpitable
+public interface Iequipable
 {
-    void ReciveEffectofEquiptment(int ADpower, int APpower, int ARpower, int MDpower);
+    void ReciveEffectofEquipment(int ADpower, int APpower, int ARpower, int MDpower);
 }
 
 

@@ -13,7 +13,7 @@ public enum PlayerState
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-public class CharacterControllers : MonoBehaviour ,IDamageable , Ipotions
+public class CharacterControllers : MonoBehaviour ,IDamageable , Ipotions ,Iequipable
 {
 
     private Rigidbody2D rgb;
@@ -28,10 +28,18 @@ public class CharacterControllers : MonoBehaviour ,IDamageable , Ipotions
   
     private SkillManager skillManager;
     private float castingTime = 2f;
+    [Header("Character_Status")]
     [SerializeField]
     private int health = 900;
     private int maxHealth = 1000;
-    private int Amrmor = 10;
+    [SerializeField]
+    private int attackDmg = 0;
+    [SerializeField]
+    private int magicDmg = 0;
+    [SerializeField]
+    private int adArmour = 0;
+    [SerializeField]
+    private int apArmour = 0;
 
     private void Awake()
     {
@@ -156,7 +164,7 @@ public class CharacterControllers : MonoBehaviour ,IDamageable , Ipotions
                 {
                     animations.PlayAnim("Attack", false);
                     yield return new WaitForSeconds(0.5f);
-                    damageable.Damage(20);
+                    damageable.Damage(attackDmg);
                     Debug.Log($"Attacking target: {target.target}");
                 }
                 else
@@ -224,7 +232,7 @@ public class CharacterControllers : MonoBehaviour ,IDamageable , Ipotions
 
     public void Damage(int DamageAmount)
     {
-        health -= (DamageAmount - Amrmor);
+        health -= (DamageAmount - adArmour);
         Debug.Log($"{health}");
         animations.PlayAnim("Hit", false);
         if (health <= 0)
@@ -238,5 +246,13 @@ public class CharacterControllers : MonoBehaviour ,IDamageable , Ipotions
     {
         health = Mathf.Min(health + amount,maxHealth);
         Debug.Log($"healing {amount}");
-    }    
+    }
+
+    public void ReciveEffectofEquipment(int ADpower, int APpower, int ARpower, int MDpower)
+    {
+        attackDmg = ADpower;
+        magicDmg = APpower;
+        adArmour = ARpower;
+        apArmour = MDpower;
+    }
 }

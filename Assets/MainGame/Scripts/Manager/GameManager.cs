@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.T))
         {
-            Inventory.InvenInst.AddItem(1, 1);
+            Inventory.InvenInst.AddItem(102, 1);
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
@@ -59,7 +59,12 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Inventory.InvenInst.UseItem(2, 1);
+            Inventory.InvenInst.UseItem(102, 1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Inventory.InvenInst.UseItem(2, 5);
         }
 
     }

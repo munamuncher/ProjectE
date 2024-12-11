@@ -28,6 +28,11 @@ public class Inventory : MonoBehaviour
         {
             Debug.LogWarning("Ipotion 참조 실패 - Inventory.cs - Awake()");
         }
+        iequipable = player.GetComponent<Iequipable>();
+        if (iequipable == null)
+        {
+            Debug.LogWarning("Iequipable 참조 실패 - Inventory.cs - Awake()");
+        }
     }
     #endregion
 
@@ -38,6 +43,7 @@ public class Inventory : MonoBehaviour
     private ItemData itemData;
     private ItemCache itemCache;
     private Ipotions ipotions;
+    private Iequipable iequipable;
     public List<InventorySlot> invenSlots = new List<InventorySlot>();
     public int maxSlots = 120;
 
@@ -93,7 +99,9 @@ public class Inventory : MonoBehaviour
                 break;
 
             case ItemType.Equipment:
+                Equipable(item, quantity);
                 Debug.Log("Equipment items cannot be used directly.");
+                
                 break;
 
             default:
@@ -173,8 +181,13 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void Equiptable(ItemData.ItemDataStructure item, int quantity)
+    private void Equipable(ItemData.ItemDataStructure item, int quantity)
     {
-
+        if(item is ItemData.EquipmentItem equipableItem)
+        {
+            EquipmentScript equipment = new EquipmentScript();
+            equipment.EquipItem(iequipable, equipableItem.meleePowerIncrease, equipableItem.magicPowerIncrease, equipableItem.adIncrease, equipableItem.mdIncerease);
+            RemoveItem(item.ItemID, quantity);
+        }
     }
 }
