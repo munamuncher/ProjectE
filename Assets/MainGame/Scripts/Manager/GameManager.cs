@@ -50,16 +50,16 @@ public class GameManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.T))
         {
-            Inventory.InvenInst.AddItem(102, 1);
+            Inventory.InvenInst.AddItem(110, 1);
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            Inventory.InvenInst.AddItem(2, 10);
+            Inventory.InvenInst.AddItem(103, 3);
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Inventory.InvenInst.UseItem(102, 1);
+            Inventory.InvenInst.UseItem(103, 1);
         }
 
         if (Input.GetKeyDown(KeyCode.X))

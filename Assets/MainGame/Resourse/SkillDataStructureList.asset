@@ -27,3 +27,10 @@ MonoBehaviour:
     skillDescription: TwinFireBall is being Shot
     damage: 20
     spellAnimation: {fileID: 9100000, guid: b8b2754bc9c5344a890bf68bb8a04200, type: 2}
+  - id: 1
+    skillName: TwinFireBall
+    mana: 10
+    coolDownTime: 5
+    skillDescription: TwinFireBall is being Shot
+    damage: 20
+    spellAnimation: {fileID: 9100000, guid: b8b2754bc9c5344a890bf68bb8a04200, type: 2}

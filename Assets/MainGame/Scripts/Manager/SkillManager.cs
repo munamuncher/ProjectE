@@ -30,6 +30,7 @@ public class SkillManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         spellCache = new SpellCache();
+        skillDamageCalc = new SkillDamageCalc();
     }
     #endregion
 
@@ -41,10 +42,19 @@ public class SkillManager : MonoBehaviour
 
     private PoolManager poolManager;
     public GameObject castingPoint;
+    private SpellCache spellCache;
+
     private IChangeSkill changeSkill;
     private ISkillMove skillMove;
-    private SpellCache spellCache;
-    private int currentMana = 1000; 
+    private ISkillDamageCalc skillDamageCalc;
+
+    private int currentMana = 1000;
+    [SerializeField]
+    private int baseDamage = 0;
+    [SerializeField]
+    private int charBonusDmg = 0;
+    [SerializeField]
+    private int finalDamage = 0;
     private void Start()
     {
         skillList = new List<Skill> { new FireBall(), new Thunder(), new ShockWave() };
@@ -67,6 +77,17 @@ public class SkillManager : MonoBehaviour
         {
             skill.UpdateCooldown();
         }
+    }
+
+    public void ReciveCharacterMagic(int characterBonus)
+    {
+        charBonusDmg = characterBonus;
+    }
+
+    public void Initialize(ISkillDamageCalc calculator, int characterBonus)
+    {
+        skillDamageCalc = calculator;
+        finalDamage = skillDamageCalc.CalculateSkillDmg(baseDamage, characterBonus);
     }
 
     public void CastSpell(int index)
@@ -102,6 +123,8 @@ public class SkillManager : MonoBehaviour
 
                 currentSkill.UseMana(currentMana);
                 Debug.Log($"Casting skill at index {index}, which is {currentSkill.GetType().Name}");
+                changeSkill.ReciveDamageData(finalDamage);
+                Initialize(skillDamageCalc, charBonusDmg);
                 currentSkill.UseSkill();
                 currentSkill.UpdateCooldown();
             }
@@ -131,7 +154,8 @@ public class SkillManager : MonoBehaviour
         skill.coolDownTime = data.coolDownTime;
         Debug.Log($"Retrieved data for {skill.GetType().Name}: Mana = {skill.manaCost}, Cooldown = {skill.coolDownTime}, SpellSprite = {data.spellAnimation.name}");
         changeSkill.ReciveSprite(data.spellAnimation);
-        changeSkill.ReciveDamageData(data.damage);
+        baseDamage = data.damage;
+        Debug.LogWarning($"baseDamage is :{baseDamage}");
         Debug.Log($"Skill sprite has changed to {data.spellAnimation.name}");
     }
 }

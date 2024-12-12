@@ -20,14 +20,16 @@ public class CharacterControllers : MonoBehaviour ,IDamageable , Ipotions ,Iequi
     private CapsuleCollider2D ccd;
 
     private IMoveable moveable;
-    private IAnimations animations;
-    [SerializeField]
-    private PlayerState currentState = PlayerState.Player_Idle;
+    private IAnimations animations;    
     private IDamageable damageable;
     private ITarget target;
-  
+    private ISkillDamageCalc skillDamageCalc;
+
+    [SerializeField]
+    private PlayerState currentState = PlayerState.Player_Idle;
     private SkillManager skillManager;
     private float castingTime = 2f;
+
     [Header("Character_Status")]
     [SerializeField]
     private int health = 900;
@@ -133,7 +135,6 @@ public class CharacterControllers : MonoBehaviour ,IDamageable , Ipotions ,Iequi
                 StopAllCoroutines();
                 ccd.enabled = false;
                 animations.PlayAnim("Dead", false);
-
                 break;
         }
     }
@@ -142,6 +143,7 @@ public class CharacterControllers : MonoBehaviour ,IDamageable , Ipotions ,Iequi
     {
         skillManager = SkillManager.sInst;
         skillManager.CastSpell(SkillIndex);
+        skillManager.Initialize(skillDamageCalc, magicDmg);
         PlayerController(PlayerState.Player_UseSkill);
         StartCoroutine(StartCastTIme());
     }
@@ -254,5 +256,7 @@ public class CharacterControllers : MonoBehaviour ,IDamageable , Ipotions ,Iequi
         magicDmg = APpower;
         adArmour = ARpower;
         apArmour = MDpower;
+
+        SkillManager.sInst.ReciveCharacterMagic(magicDmg);
     }
 }

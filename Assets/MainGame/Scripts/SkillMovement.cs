@@ -17,10 +17,11 @@ public class SkillMovement : PoolLabel, ISkillMove, IChangeSkill
     [SerializeField]
     private Animator anim;
     [SerializeField]
-    private int dataDamage = 0;
+    private int finalDamage;
     private int direction;
 
     private IDamageable damage;
+    private ISkillDamageCalc skillDamageCalc;
 
     private void Awake()
     {
@@ -51,7 +52,7 @@ public class SkillMovement : PoolLabel, ISkillMove, IChangeSkill
 
     public void ReciveDamageData(int Ddata)
     {
-        dataDamage = Ddata;
+        finalDamage = Ddata;
     }
     public void ReciveDirection(int direct)
     {
@@ -73,8 +74,8 @@ public class SkillMovement : PoolLabel, ISkillMove, IChangeSkill
         {
             if (collision.gameObject.TryGetComponent<IDamageable>(out damage))
             {
-                damage.Damage(dataDamage);
-                Debug.Log($"doing {dataDamage}");
+                damage.Damage(finalDamage);
+                Debug.LogWarning($"doing {finalDamage}");
             }
             else
             {

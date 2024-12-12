@@ -56,7 +56,12 @@ public interface ISKillBuff
 public interface IChangeSkill
 {
     void ReciveSprite(RuntimeAnimatorController animation);
-    void ReciveDamageData(int daamage);
+    void ReciveDamageData(int dataDamage);
+}
+
+public interface ISkillDamageCalc
+{
+    int CalculateSkillDmg(int daamage ,int characterBonus);
 }
 
 public interface IRecivePoolObjects
